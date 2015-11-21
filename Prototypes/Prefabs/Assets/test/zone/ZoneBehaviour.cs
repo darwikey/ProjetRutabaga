@@ -9,24 +9,34 @@ public class ZoneBehaviour : MonoBehaviour {
     public MeshRenderer rend;
     GameObject[] players;
 
+    public float captureDuration = 3.0f;
+
+    /*timer for the capture*/
+    public float captureTimer;
+
+    /*id of the owner team, 0: none, 1: red, 2: blue*/
+    int ownerTeam;
+
+    /*list of player currently in the area*/
     List<GameObject> playersInArea = new List<GameObject>();
 
 	// Use this for initialization
 	void Start () {
         rend = GetComponent<MeshRenderer>();
         players = GameObject.FindGameObjectsWithTag("Player");
+        captureTimer = 0;
+        ownerTeam = 0;
     }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-
-  
         int teamInArea = getTeamInArea();
-        setAreaColor(teamInArea);
-
+        manageTimer(teamInArea);
+        setOwnerTeam(teamInArea);
+        setAreaColor(ownerTeam);
     }
 
-    /*quand un objet entre dans la zone*/
+    /*when an object enter the area*/
     void OnTriggerEnter(Collider other)
     {
 
@@ -39,7 +49,8 @@ public class ZoneBehaviour : MonoBehaviour {
         }
       
     }
-    /*quand un objet sort de la zone*/
+
+    /*when an object leave the area*/
     void OnTriggerExit(Collider other)
     {
    
@@ -50,10 +61,31 @@ public class ZoneBehaviour : MonoBehaviour {
         }
     }
 
+    /*manage timer according to the team in area*/
+    void manageTimer(int teamInArea)
+    {
+        if(teamInArea > 0 && teamInArea != ownerTeam)
+        {
+            captureTimer += Time.deltaTime;
+        }
+        else
+        {
+            captureTimer = .0f;
+        }
+    }
 
+    /*set the owner team when captureTimer > captureDuration*/
+    void setOwnerTeam(int teamInArea)
+    {
+        if(captureTimer >= captureDuration)
+        {
+            ownerTeam = teamInArea;
 
+        }
+    }
 
-    int getTeamInArea()
+    /* return the team present in area; 0: none; 1: red; 2: blue; -1: both*/
+    public int getTeamInArea()
     {
         int teamId;
         int teamInArea = 0;
@@ -72,9 +104,10 @@ public class ZoneBehaviour : MonoBehaviour {
         return teamInArea;
     }
 
-    void setAreaColor(int teamInArea)
+    /* set the area color according to the owner team*/
+    void setAreaColor(int ownerTeam)
     {
-        switch (teamInArea)
+        switch (ownerTeam)
         {
             case -1:
                 rend.material.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
