@@ -36,15 +36,6 @@ public class TeamManager : MonoBehaviour {
     {
         GameObject player = Instantiate(Resources.Load("PlayerPrefab")) as GameObject;
 
-        // Minimap icon
-        GameObject minimapIcon = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        minimapIcon.GetComponent<MeshCollider>().enabled = false;
-        minimapIcon.transform.SetParent(player.transform);
-        minimapIcon.transform.localPosition = new Vector3(0.0f, 1.5f, 0.0f);
-        minimapIcon.transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
-        minimapIcon.transform.localScale = 9.0f * Vector3.one;
-        minimapIcon.layer = 10;
-
 
         Vector2 spawnPos = _spawnRadius * Random.insideUnitCircle;
 
@@ -58,33 +49,34 @@ public class TeamManager : MonoBehaviour {
             _team1.Add(player);
 
             player.transform.position = _spawner1.position + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
-
-            minimapIcon.GetComponent<Renderer>().material = Resources.Load("team1Minimap") as Material;
         }
         else
         {
             _team2.Add(player);
 
             player.transform.position = _spawner2.position + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
-
-            minimapIcon.GetComponent<Renderer>().material = Resources.Load("team2Minimap") as Material;
         }
 
+
+		Player playerInstance = null;
 		// type of player
 		switch (playerType) 
 		{
 		case Player.Type.MARKSMAN:
-			player.AddComponent<Marksman>();
+			playerInstance = player.AddComponent<Marksman>();
 			break;
 
 		case Player.Type.PROTECTOR:
-			player.AddComponent<Protector>();
+			playerInstance = player.AddComponent<Protector>();
 			break;
 
 		case Player.Type.ENGINEER:
-			player.AddComponent<Engineer>();
+			playerInstance = player.AddComponent<Engineer>();
 			break;
 		}
+
+		// assign a team
+		playerInstance.team = team;
     }
 
 
