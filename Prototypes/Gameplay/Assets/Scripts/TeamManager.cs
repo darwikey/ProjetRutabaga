@@ -20,9 +20,9 @@ public class TeamManager : MonoBehaviour {
     void Start () {
 	    for (uint i = 0; i < _numPlayers; i++)
         {
-            SpawnPlayer(1);
+            SpawnPlayer(1, Player.Type.MARKSMAN);
             
-            SpawnPlayer(2);
+			SpawnPlayer(2, Player.Type.MARKSMAN);
         }
 	}
 	
@@ -32,11 +32,11 @@ public class TeamManager : MonoBehaviour {
     }
 
 
-    void SpawnPlayer(int team)
+	void SpawnPlayer(int team, Player.Type playerType)
     {
         GameObject player = Instantiate(Resources.Load("PlayerPrefab")) as GameObject;
 
-        // minimap icon
+        // Minimap icon
         GameObject minimapIcon = GameObject.CreatePrimitive(PrimitiveType.Quad);
         minimapIcon.GetComponent<MeshCollider>().enabled = false;
         minimapIcon.transform.SetParent(player.transform);
@@ -45,14 +45,15 @@ public class TeamManager : MonoBehaviour {
         minimapIcon.transform.localScale = 9.0f * Vector3.one;
         minimapIcon.layer = 10;
 
+
         Vector2 spawnPos = _spawnRadius * Random.insideUnitCircle;
 
+		// team dependant
         if (team == 1)
         {
             if (_team1.Count() == 0)
             {
 				_mainPlayer = player;
-                player.GetComponent<ThirdPersonController>().enabled = true;
             }
             _team1.Add(player);
 
@@ -68,6 +69,22 @@ public class TeamManager : MonoBehaviour {
 
             minimapIcon.GetComponent<Renderer>().material = Resources.Load("team2Minimap") as Material;
         }
+
+		// type of player
+		switch (playerType) 
+		{
+		case Player.Type.MARKSMAN:
+			player.AddComponent<Marksman>();
+			break;
+
+		case Player.Type.PROTECTOR:
+			player.AddComponent<Protector>();
+			break;
+
+		case Player.Type.ENGINEER:
+			player.AddComponent<Engineer>();
+			break;
+		}
     }
 
 

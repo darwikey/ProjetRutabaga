@@ -4,9 +4,11 @@ using System.Collections;
 public class Protector : Player
 {
 
-   
-	// Update is called once per frame
-	void Update () {
-	
+	public override Type playerType
+	{
+		get 
+		{
+			return Type.PROTECTOR;
+		}
 	}
 }
