@@ -4,14 +4,16 @@ using System.Linq;
 
 
 public class TeamManager : MonoBehaviour {
-
-    List<GameObject> _team1 = new List<GameObject>();
-    List<GameObject> _team2 = new List<GameObject>();
-
+	
     public uint _numPlayers = 5;
     public Transform _spawner1;
     public Transform _spawner2;
     public float _spawnRadius = 5.0f;
+
+	List<GameObject> _team1 = new List<GameObject>();
+	List<GameObject> _team2 = new List<GameObject>();
+
+	GameObject _mainPlayer;
 
 
     // Use this for initialization
@@ -49,6 +51,7 @@ public class TeamManager : MonoBehaviour {
         {
             if (_team1.Count() == 0)
             {
+				_mainPlayer = player;
                 player.GetComponent<ThirdPersonController>().enabled = true;
             }
             _team1.Add(player);
@@ -66,4 +69,13 @@ public class TeamManager : MonoBehaviour {
             minimapIcon.GetComponent<Renderer>().material = Resources.Load("team2Minimap") as Material;
         }
     }
+
+
+	public GameObject mainPlayer
+	{
+		get
+		{
+			return _mainPlayer;
+		}
+	}
 }

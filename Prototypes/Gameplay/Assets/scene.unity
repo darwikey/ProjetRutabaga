@@ -658,7 +658,6 @@ GameObject:
   - 92: {fileID: 960567569}
   - 81: {fileID: 960567568}
   - 114: {fileID: 960567572}
-  - 114: {fileID: 960567573}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -739,30 +738,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 960567566}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 885b1972ad11a921d000d37b8d76c639, type: 3}
+  m_Script: {fileID: 11500000, guid: bbc657da907c5da45a9ebc8e206b9cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1792160369}
-  distance: 5
-  height: 10
-  heightDamping: 2
-  rotationDamping: 3
---- !u!114 &960567573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 960567566}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a4debc9ad1110f6d00074c88d76c639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1792160369}
-  damping: 6
-  smooth: 1
+  _tm: {fileID: 128870767}
 --- !u!1001 &990597810
 Prefab:
   m_ObjectHideFlags: 0
@@ -1224,10 +1205,6 @@ CanvasRenderer:
 --- !u!1 &1792160368 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 141724, guid: 8485a708dba792c4cac35b8e52768940, type: 2}
-  m_PrefabInternal: {fileID: 238851112}
---- !u!4 &1792160369 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 439054, guid: 8485a708dba792c4cac35b8e52768940, type: 2}
   m_PrefabInternal: {fileID: 238851112}
 --- !u!1 &1898858616
 GameObject:
