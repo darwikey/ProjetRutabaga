@@ -154,11 +154,11 @@
 \medskip
 
 
-\item Ses co-\'equipiers sont g\'er\'es par l'IA.
+\item Ses co-\'equipiers et ses adversaires sont g\'er\'es par l'IA.
 
 \medskip
 
-\item Le joueur peut donner des ordres simples \`a ses co\'equipiers:
+\item Le joueur peut donner des ordres simples \`a ses co-\'equipiers:
 \begin{itemize}
 \item Aidez-moi!
 \item A l'attaque!
@@ -172,11 +172,11 @@
 \begin{frame}{Principe du jeu: Actions}
 
 \begin{block}{Trois types des personnages}
-\begin{itemize}
-\item tireur: peut tuer les adversaires en un coup 
-\item protecteur: prot\`ege un co\'equipier en difficult\'e 
-\item ing\'enieur: construit des obstacles pour emp\^echer l'adversaire d'entrer dans une zone.
-\end{itemize}
+\begin{description}
+\item[Tireur:] peut tuer les adversaires en un coup 
+\item[Protecteur:] prot\`ege un co\'equipier en difficult\'e 
+\item[Ing\'enieur:] construit des obstacles pour emp\^echer l'adversaire d'entrer dans une zone.
+\end{description}
 \end{block}
 
 \bigskip
@@ -225,11 +225,14 @@ Capacit\'e d'attaque		& ++      & -                 & -                  \\
 \begin{itemize}
 \item NavMesh
  \item Prefab Zone
+ \item Prefab Minimap
  \item Prefab Brouillard de Guerre
- \item Architecture de classes Player
+ \item Architecture de classes TeamsManager, Player
 \end{itemize}
 \end{block}
+\end{frame}
 
+\begin{frame}{D\'eveloppement}
 \begin{block}{Travail restant}
 \begin{itemize}
  \item IA pour chaque type de personnage (+++)
