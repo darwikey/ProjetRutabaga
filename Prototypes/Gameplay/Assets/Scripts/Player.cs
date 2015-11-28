@@ -13,7 +13,7 @@ public abstract class Player : MonoBehaviour
 	// if not null, this player is the main player
 	protected Camera _mainCamera;
 
-	int _team = 1;
+	public int _team = 1;
 
 
     // Use this for initialization
