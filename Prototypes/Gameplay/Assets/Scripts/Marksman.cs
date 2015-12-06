@@ -94,6 +94,7 @@ public class Marksman : Player
 			if (hitPlayer != null && hitPlayer.team != _team)
 			{
 				Debug.Log("hit");
+				hitPlayer.SetDamage(60.0f);
 			}
 
 			// end of the bullet line

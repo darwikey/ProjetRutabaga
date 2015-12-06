@@ -10,8 +10,8 @@ public class TeamManager : MonoBehaviour {
     public Transform _spawner2;
     public float _spawnRadius = 5.0f;
 
-	List<GameObject> _team1 = new List<GameObject>();
-	List<GameObject> _team2 = new List<GameObject>();
+	List<Player> _team1 = new List<Player>();
+	List<Player> _team2 = new List<Player>();
 
 	GameObject _mainPlayer;
 
@@ -20,46 +20,36 @@ public class TeamManager : MonoBehaviour {
     void Start () {
 	    for (uint i = 0; i < _numPlayers; i++)
         {
-            SpawnPlayer(1, Player.Type.MARKSMAN);
+			CreatePlayer(1, Player.Type.MARKSMAN);
             
-			SpawnPlayer(2, Player.Type.MARKSMAN);
+			CreatePlayer(2, Player.Type.MARKSMAN);
         }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	    foreach (GameObject player in _team1) 
+		foreach (Player player in _team1) 
 		{
-
+			if (player.health <= 0.0f)
+			{
+				SpawnPlayer(player);
+				player.Start();
+			}
+		}
+		foreach (Player player in _team2) 
+		{
+			if (player.health <= 0.0f)
+			{
+				SpawnPlayer(player);
+				player.Start();
+			}
 		}
     }
 
 
-	void SpawnPlayer(int team, Player.Type playerType)
+	void CreatePlayer(int team, Player.Type playerType)
     {
         GameObject player = Instantiate(Resources.Load("PlayerPrefab")) as GameObject;
-
-
-        Vector2 spawnPos = _spawnRadius * Random.insideUnitCircle;
-
-		// team dependant
-        if (team == 1)
-        {
-            if (_team1.Count() == 0)
-            {
-				_mainPlayer = player;
-            }
-            _team1.Add(player);
-
-            player.transform.position = _spawner1.position + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
-        }
-        else
-        {
-            _team2.Add(player);
-
-            player.transform.position = _spawner2.position + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
-        }
-
 
 		Player playerInstance = null;
 		// type of player
@@ -80,7 +70,42 @@ public class TeamManager : MonoBehaviour {
 
 		// assign a team
 		playerInstance.team = team;
+
+
+		// team dependant
+		if (team == 1)
+		{
+			if (_team1.Count() == 0)
+			{
+				_mainPlayer = player;
+			}
+			_team1.Add(playerInstance);
+		}
+		else
+		{
+			_team2.Add(playerInstance);
+		}
+
+		// find a position
+		SpawnPlayer(playerInstance);
     }
+
+
+	void SpawnPlayer(Player player)
+	{
+		Vector2 spawnPos = _spawnRadius * Random.insideUnitCircle;
+
+		// team dependant
+		if (player.team == 1)
+		{
+			player.transform.position = _spawner1.position + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
+		}
+		else
+		{
+			player.transform.position = _spawner2.position + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
+		}
+
+	}
 
 
 	public GameObject mainPlayer

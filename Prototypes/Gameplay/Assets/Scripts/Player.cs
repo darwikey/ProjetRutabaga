@@ -15,28 +15,31 @@ public abstract class Player : MonoBehaviour
 
 	public int _team = 1;
 
-	protected float _health = 100.0f;
+	protected float _health = 0.0f;
+
+	GameObject _minimapIcon;
 
 
-    // Use this for initialization
-    protected virtual void Start()
+    // When the player spawn
+    public virtual void Start()
     {
-		// Minimap icon
-		GameObject minimapIcon = GameObject.CreatePrimitive(PrimitiveType.Quad);
-		minimapIcon.GetComponent<MeshCollider>().enabled = false;
-		minimapIcon.transform.SetParent(transform);
-		minimapIcon.transform.localPosition = new Vector3(0.0f, 1.5f, 0.0f);
-		minimapIcon.transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
-		minimapIcon.transform.localScale = 9.0f * Vector3.one;
-		minimapIcon.layer = 10;
+		_health = 100.0f;
 
-		if (team == 1)
-		{
-			minimapIcon.GetComponent<Renderer>().material = Resources.Load("team1Minimap") as Material;
-		}
-		else
-		{
-			minimapIcon.GetComponent<Renderer>().material = Resources.Load("team2Minimap") as Material;
+		// Minimap icon
+		if (_minimapIcon == null) {
+			_minimapIcon = GameObject.CreatePrimitive (PrimitiveType.Quad);
+			_minimapIcon.GetComponent<MeshCollider> ().enabled = false;
+			_minimapIcon.transform.SetParent (transform);
+			_minimapIcon.transform.localPosition = new Vector3 (0.0f, 1.5f, 0.0f);
+			_minimapIcon.transform.rotation = Quaternion.Euler (90.0f, 0.0f, 0.0f);
+			_minimapIcon.transform.localScale = 9.0f * Vector3.one;
+			_minimapIcon.layer = 10;
+			
+			if (team == 1) {
+				_minimapIcon.GetComponent<Renderer> ().material = Resources.Load ("team1Minimap") as Material;
+			} else {
+				_minimapIcon.GetComponent<Renderer> ().material = Resources.Load ("team2Minimap") as Material;
+			}
 		}
 
     }

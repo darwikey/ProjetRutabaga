@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Protector : Player
 {
-	protected override void Start()
+	public override void Start()
 	{
 		base.Start ();
 		_health *= 1.5f;
