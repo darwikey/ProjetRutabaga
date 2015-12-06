@@ -82,13 +82,19 @@ public class Marksman : Player
 
 
 		Vector3 direction = mouseHit.point - transform.position;
+		direction.Normalize();
 		direction.y = 0.0f;
 
 		// Raycast for bullet
 		RaycastHit bulletHit;
 		if (Physics.Raycast (transform.position + direction, direction, out bulletHit, 100)) 
 		{
-			//if ()
+			// if the bullet hits a player of the other team
+			Player hitPlayer = bulletHit.collider.GetComponent<Player>();
+			if (hitPlayer != null && hitPlayer.team != _team)
+			{
+				Debug.Log("hit");
+			}
 
 			// end of the bullet line
 			_bulletLine.SetPosition (1, bulletHit.point);

@@ -28,7 +28,10 @@ public class TeamManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    
+	    foreach (GameObject player in _team1) 
+		{
+
+		}
     }
 
 

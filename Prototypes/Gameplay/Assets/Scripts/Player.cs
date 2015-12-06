@@ -15,6 +15,8 @@ public abstract class Player : MonoBehaviour
 
 	public int _team = 1;
 
+	protected float _health = 100.0f;
+
 
     // Use this for initialization
     protected virtual void Start()
@@ -48,6 +50,12 @@ public abstract class Player : MonoBehaviour
 	}
 
 
+	public void SetDamage(float damage)
+	{
+		_health -= damage;
+	}
+
+
 	public abstract Type playerType 
 	{
 		get;
@@ -76,5 +84,12 @@ public abstract class Player : MonoBehaviour
 			_team = value;
 		}
 	}
-	
+
+	public float health
+	{
+		get
+		{
+			return _health;
+		}
+	}
 }
