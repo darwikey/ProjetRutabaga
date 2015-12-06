@@ -9,6 +9,7 @@ public class TeamManager : MonoBehaviour {
     public Transform _spawner1;
     public Transform _spawner2;
     public float _spawnRadius = 5.0f;
+	public float _visibilityDistance = 25.0f;
 
 	List<Player> _team1 = new List<Player>();
 	List<Player> _team2 = new List<Player>();
@@ -30,6 +31,7 @@ public class TeamManager : MonoBehaviour {
 	void Update () {
 		foreach (Player player in _team1) 
 		{
+			// if dead
 			if (player.health <= 0.0f)
 			{
 				SpawnPlayer(player);
@@ -38,11 +40,24 @@ public class TeamManager : MonoBehaviour {
 		}
 		foreach (Player player in _team2) 
 		{
+			// if dead
 			if (player.health <= 0.0f)
 			{
 				SpawnPlayer(player);
 				player.Start();
 			}
+
+			bool isVisible = false;
+			foreach (Player player1 in _team1) 
+			{
+				if (Vector3.Distance(player.transform.position, player1.transform.position) < _visibilityDistance)
+				{
+					isVisible = true;
+					break;
+				}
+			}
+			player.transform.FindChild("Bip001").gameObject.SetActive(isVisible);
+			player.transform.FindChild("Icon").gameObject.SetActive(isVisible);
 		}
     }
 

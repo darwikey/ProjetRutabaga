@@ -28,6 +28,7 @@ public abstract class Player : MonoBehaviour
 		// Minimap icon
 		if (_minimapIcon == null) {
 			_minimapIcon = GameObject.CreatePrimitive (PrimitiveType.Quad);
+			_minimapIcon.name = "Icon";
 			_minimapIcon.GetComponent<MeshCollider> ().enabled = false;
 			_minimapIcon.transform.SetParent (transform);
 			_minimapIcon.transform.localPosition = new Vector3 (0.0f, 1.5f, 0.0f);

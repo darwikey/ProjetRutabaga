@@ -93,7 +93,6 @@ public class Marksman : Player
 			Player hitPlayer = bulletHit.collider.GetComponent<Player>();
 			if (hitPlayer != null && hitPlayer.team != _team)
 			{
-				Debug.Log("hit");
 				hitPlayer.SetDamage(60.0f);
 			}
 
