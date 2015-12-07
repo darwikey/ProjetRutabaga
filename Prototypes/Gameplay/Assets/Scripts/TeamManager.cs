@@ -47,6 +47,7 @@ public class TeamManager : MonoBehaviour {
 				player.Start();
 			}
 
+			// enemies too far are not rendered
 			bool isVisible = false;
 			foreach (Player player1 in _team1) 
 			{

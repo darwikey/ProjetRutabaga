@@ -170,6 +170,7 @@ MonoBehaviour:
   _spawner1: {fileID: 1324131677}
   _spawner2: {fileID: 1898858617}
   _spawnRadius: 5
+  _visibilityDistance: 25
 --- !u!4 &128870768
 Transform:
   m_ObjectHideFlags: 0
@@ -1167,7 +1168,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294966527
+    m_Bits: 4294966783
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: f53855c5788ecc44eb5d246f2c5cf434, type: 2}
   m_TargetDisplay: 0
