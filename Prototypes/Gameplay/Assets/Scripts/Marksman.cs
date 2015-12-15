@@ -16,9 +16,11 @@ public class Marksman : Player
 		{
 
 			// the main player shoots
-			if (_mainCamera != null) {
+			if (_mainCamera != null)
+            {
 				// the user pressed the mouse down
-				if (Input.GetMouseButton (0)) {
+				if (Input.GetMouseButton (0))
+                {
 					// reset timer
 					_shootTimer = 0.0f;
 
@@ -26,7 +28,8 @@ public class Marksman : Player
 				}
 			}
 			// IA shoots
-			else {
+			else
+            {
 			
 				// TODO reset timer
 
@@ -62,11 +65,8 @@ public class Marksman : Player
 
 	void mainPlayerShoot()
 	{
-		
-		// Raycast for the mouse
-		RaycastHit mouseHit;
-		if (!Physics.Raycast(_mainCamera.ScreenPointToRay(Input.mousePosition), out mouseHit, 100))
-			return;
+        // Raycast for the mouse
+        Vector3 cursorPos = getCursorWorldPosition();
 
 		if (_bulletLine == null) 
 		{
@@ -81,7 +81,7 @@ public class Marksman : Player
 		_bulletLine.SetWidth (0.1f, 0.1f);
 
 
-		Vector3 direction = mouseHit.point - transform.position;
+		Vector3 direction = cursorPos - transform.position;
 		direction.Normalize();
 		direction.y = 0.0f;
 

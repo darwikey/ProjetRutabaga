@@ -215,10 +215,6 @@ public class ThirdPersonController : MonoBehaviour
 	{
 		return Mathf.Abs(Input.GetAxisRaw("Vertical")) + Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5;
 	}
-	
-	void Reset ()
-	{
-		gameObject.tag = "Player";
-	}
+
 
 }

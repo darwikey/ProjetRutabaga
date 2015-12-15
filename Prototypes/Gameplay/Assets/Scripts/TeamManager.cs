@@ -13,8 +13,9 @@ public class TeamManager : MonoBehaviour {
 
 	List<Player> _team1 = new List<Player>();
 	List<Player> _team2 = new List<Player>();
+    List<Player> _players = new List<Player>();
 
-	GameObject _mainPlayer;
+    GameObject _mainPlayer;
 
 
     // Use this for initialization
@@ -101,6 +102,7 @@ public class TeamManager : MonoBehaviour {
 		{
 			_team2.Add(playerInstance);
 		}
+        _players.Add(playerInstance);
 
 		// find a position
 		SpawnPlayer(playerInstance);
@@ -131,4 +133,12 @@ public class TeamManager : MonoBehaviour {
 			return _mainPlayer;
 		}
 	}
+
+    public List<Player> playerList
+    {
+        get
+        {
+            return _players;
+        }
+    }
 }

@@ -19,6 +19,11 @@ public abstract class Player : MonoBehaviour
 
 	GameObject _minimapIcon;
 
+    // grenades
+    int _numGrenade = 99;
+    float _launchGrenadeTimer = 0.0f;
+    GameObject _grenadePrefab;
+
 
     // When the player spawn
     public virtual void Start()
@@ -43,6 +48,8 @@ public abstract class Player : MonoBehaviour
 			}
 		}
 
+        // grenade
+        _grenadePrefab = Resources.Load("Grenade") as GameObject;
     }
 
 
@@ -51,8 +58,53 @@ public abstract class Player : MonoBehaviour
 		// user can control the main player
 		GetComponent<ThirdPersonController>().enabled = (_mainCamera != null);
 
-	}
+        // Grenade
+        if (_launchGrenadeTimer > 2.0f && _numGrenade > 0)
+        {
+            // main player launch a grenade
+            if (mainCamera != null)
+            {
+                // middle mouse button or G key
+                if (Input.GetMouseButton(2) || Input.GetKey(KeyCode.G))
+                {
+                    launchGrenade();  
+                }
+            }
+            else // AI todo
+            {
+                if (false)
+                {
+                    launchGrenade();
+                }
+            }
+        }
 
+        _launchGrenadeTimer += Time.deltaTime;
+    }
+
+
+    protected void launchGrenade()
+    {
+        _launchGrenadeTimer = 0.0f;
+        _numGrenade--;
+        
+        Vector3 vel = getCursorWorldPosition() - transform.position;
+        vel.Normalize();
+        vel.y = 0.15f;
+        GameObject grenade = Object.Instantiate(_grenadePrefab, transform.position + 0.5f * vel, Quaternion.identity) as GameObject;
+        grenade.GetComponent<Rigidbody>().velocity = 20.0f * vel;
+    }
+
+
+    // Raycast for the mouse
+    public Vector3 getCursorWorldPosition()
+	{
+		RaycastHit mouseHit;
+		if (!Physics.Raycast(_mainCamera.ScreenPointToRay(Input.mousePosition), out mouseHit, 100))
+			return Vector3.zero;
+
+        return mouseHit.point; 
+	}
 
 	public void SetDamage(float damage)
 	{

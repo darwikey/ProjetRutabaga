@@ -10,13 +10,12 @@ public class PlayerCamera : MonoBehaviour {
 	// How much we smooth the movement
 	public float heightDamping = 2.0f;
 
-
-	public TeamManager _tm;
+	TeamManager _tm;
 
 
 	// Use this for initialization
 	void Start () {
-
+        _tm = GameObject.Find("TeamManager").GetComponent<TeamManager>();
 	}
 	
 	// Update is called once per frame
