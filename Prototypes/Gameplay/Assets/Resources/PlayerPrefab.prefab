@@ -1650,7 +1650,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1674,7 +1676,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1735,28 +1739,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 141724}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d5ac211a643e447ca78c2d794a16381, type: 3}
+  m_Script: {fileID: 11500000, guid: 860db1e02d2ed07498255377b96a8230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   idleAnimation: {fileID: 7400012, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
   walkAnimation: {fileID: 7400016, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
   runAnimation: {fileID: 7400014, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
-  jumpPoseAnimation: {fileID: 7400018, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
-  walkMaxAnimationSpeed: .899999976
-  trotMaxAnimationSpeed: 1.29999995
-  runMaxAnimationSpeed: .899999976
-  jumpAnimationSpeed: 1.14999998
+  walkMaxAnimationSpeed: .75
+  trotMaxAnimationSpeed: 1
+  runMaxAnimationSpeed: 1
   landAnimationSpeed: 1
   walkSpeed: 4
-  trotSpeed: 4
-  runSpeed: 8
-  inAirControlAcceleration: 0
-  jumpHeight: 1
-  gravity: 20
-  speedSmoothing: 1000
-  rotateSpeed: 1000
-  trotAfterSeconds: 1
-  canJump: 1
+  runSpeed: 6
+  speedSmoothing: 10
+  rotateSpeed: 50000
 --- !u!137 &13767292
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1775,7 +1771,9 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1886,6 +1884,18 @@ Prefab:
       propertyPath: m_Radius
       value: .449999988
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: idleAnimation
+      value: 
+      objectReference: {fileID: 7400012, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
+    - target: {fileID: 0}
+      propertyPath: walkAnimation
+      value: 
+      objectReference: {fileID: 7400016, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
+    - target: {fileID: 0}
+      propertyPath: runAnimation
+      value: 
+      objectReference: {fileID: 7400014, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 141724}
