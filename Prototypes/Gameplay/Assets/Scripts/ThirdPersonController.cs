@@ -36,8 +36,6 @@ public class ThirdPersonController : MonoBehaviour
 	
 	// The current move direction in x-z
 	private Vector3 moveDirection = Vector3.zero;
-	// The current vertical speed
-	private float verticalSpeed = 0.0f;
 	// The current x-z move speed
 	private float moveSpeed = 0.0f;
 	
@@ -161,29 +159,29 @@ public class ThirdPersonController : MonoBehaviour
 		}
 
 		UpdateSmoothedMovementDirection();
-		
-		// Calculate actual motion
-		Vector3 movement = moveDirection * moveSpeed + new Vector3(0, verticalSpeed, 0);
+
+        // Calculate actual motion
+        Vector3 movement = moveDirection * moveSpeed;
 		movement *= Time.deltaTime;
 		
 		// Move the controller
-		CharacterController controller = GetComponent<CharacterController>();
-		controller.Move(movement);
+		Rigidbody controller = GetComponent<Rigidbody>();
+        controller.position = movement + controller.position;
 		
 		// ANIMATION sector
 		if(_animation) {
 
-			if(controller.velocity.sqrMagnitude < 0.1) {
+			if(movement.sqrMagnitude < 0.001) {
 				_animation.CrossFade(idleAnimation.name);
 			}
 			else 
 			{
 				if(_characterState == CharacterState.Running) {
-					_animation[runAnimation.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0f, runMaxAnimationSpeed);
-					_animation.CrossFade(runAnimation.name);	
+                    _animation[runAnimation.name].speed = runMaxAnimationSpeed;//Mathf.Clamp(controller.velocity.magnitude, 0.0f, runMaxAnimationSpeed);
+                    _animation.CrossFade(runAnimation.name);	
 				}
 				else if(_characterState == CharacterState.Walking) {
-					_animation[walkAnimation.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0f, walkMaxAnimationSpeed);
+                    _animation[walkAnimation.name].speed = walkMaxAnimationSpeed;// Mathf.Clamp(controller.velocity.magnitude, 0.0f, walkMaxAnimationSpeed);
 					_animation.CrossFade(walkAnimation.name);	
 				}
 				
