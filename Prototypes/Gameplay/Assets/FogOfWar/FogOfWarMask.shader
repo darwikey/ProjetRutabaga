@@ -6,7 +6,7 @@
 	}
 	
 	SubShader {
-      Tags { "Queue" = "Transparent" } 
+      Tags { "Queue" = "Transparent+10"} 
          // draw after all opaque geometry has been drawn
       Pass {
          ZWrite Off // don't write to depth buffer 
