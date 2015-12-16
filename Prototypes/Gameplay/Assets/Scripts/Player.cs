@@ -18,6 +18,7 @@ public abstract class Player : MonoBehaviour
 	protected float _health = 0.0f;
 
 	GameObject _minimapIcon;
+	GameObject _fogMask;
 
     // grenades
     int _numGrenade = 99;
@@ -46,6 +47,20 @@ public abstract class Player : MonoBehaviour
 			} else {
 				_minimapIcon.GetComponent<Renderer> ().material = Resources.Load ("team2Minimap") as Material;
 			}
+		}
+
+		// Fog mask
+		if (_team == 1 && _fogMask == null) 
+		{
+			_fogMask = GameObject.CreatePrimitive (PrimitiveType.Quad);
+			_fogMask.name = "FogMask";
+			_fogMask.GetComponent<MeshCollider> ().enabled = false;
+			_fogMask.transform.SetParent (transform);
+			_fogMask.transform.localPosition = new Vector3 (0.0f, 1.5f, 0.0f);
+			_fogMask.transform.rotation = Quaternion.Euler (90.0f, 0.0f, 0.0f);
+			_fogMask.transform.localScale = 16.0f * Vector3.one;
+			_fogMask.layer = 9;
+			_fogMask.GetComponent<Renderer>().material = Resources.Load ("FogMaskMat") as Material;
 		}
 
         // grenade
