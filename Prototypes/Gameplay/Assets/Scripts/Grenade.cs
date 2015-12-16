@@ -5,8 +5,11 @@ public class Grenade : MonoBehaviour {
 
     public float _timeout = 3.0f;
     public float _blastRadius = 10.0f;
+    public GameObject _explosionPrefab;
+
     float _timer = 0.0f;
     TeamManager _tm;
+
 
     // Use this for initialization
     void Start () {
@@ -34,6 +37,10 @@ public class Grenade : MonoBehaviour {
                     player.GetComponent<Rigidbody>().velocity = 15.0f * dir;
                 }
             }
+
+            // particles
+            GameObject ps = Instantiate(_explosionPrefab, transform.position, Quaternion.identity) as GameObject;
+            Destroy(ps, 1.2f);
 
             // explode
             Destroy(gameObject);
