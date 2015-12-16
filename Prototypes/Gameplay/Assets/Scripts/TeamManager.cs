@@ -141,11 +141,21 @@ public class TeamManager : MonoBehaviour {
 		}
 	}
 
-    public List<Player> playerList
+    public List<Player> getPlayerList()
     {
-        get
+        return _players;
+    }
+
+    public List<Player> getPlayerList(int team)
+    {
+        if (team == 1)
         {
-            return _players;
+            return _team1; 
+        }
+        else
+        {
+            return _team2;
         }
     }
+
 }

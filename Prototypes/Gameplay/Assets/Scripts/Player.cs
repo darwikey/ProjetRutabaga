@@ -14,8 +14,9 @@ public abstract class Player : MonoBehaviour
 	protected Camera _mainCamera;
 
 	public int _team = 1;
+    TeamManager _tm;
 
-	protected float _health = 0.0f;
+    protected float _health = 0.0f;
 
 	GameObject _minimapIcon;
 	GameObject _fogMask;
@@ -31,8 +32,10 @@ public abstract class Player : MonoBehaviour
     {
 		_health = 100.0f;
 
-		// Minimap icon
-		if (_minimapIcon == null) {
+        _tm = GameObject.Find("TeamManager").GetComponent<TeamManager>();
+
+        // Minimap icon
+        if (_minimapIcon == null) {
 			_minimapIcon = GameObject.CreatePrimitive (PrimitiveType.Quad);
 			_minimapIcon.name = "Icon";
 			_minimapIcon.GetComponent<MeshCollider> ().enabled = false;
@@ -123,6 +126,24 @@ public abstract class Player : MonoBehaviour
 
 	public void SetDamage(float damage)
 	{
+        bool isProtected = false;
+        foreach(Player p in _tm.getPlayerList(_team))
+        {
+            if (p.playerType == Type.PROTECTOR)
+            {
+                if (Vector3.Distance(transform.position, p.transform.position) < 6.5f)
+                {
+                    isProtected = true;
+                    break;
+                }
+            }
+        }
+
+        if (isProtected)
+        {
+            Debug.Log("protected");
+            damage *= 0.5f; 
+        }
 		_health -= damage;
 	}
 

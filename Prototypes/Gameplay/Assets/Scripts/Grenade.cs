@@ -19,7 +19,7 @@ public class Grenade : MonoBehaviour {
         if (_timer > _timeout)
         {
             // explosion blast
-            foreach (Player player in _tm.playerList)
+            foreach (Player player in _tm.getPlayerList())
             {
                 float d = Vector3.Distance(transform.position, player.transform.position);
                 // in the blast radius
