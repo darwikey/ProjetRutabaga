@@ -24,7 +24,14 @@ public class TeamManager : MonoBehaviour {
         {
 			CreatePlayer(1, Player.Type.MARKSMAN);
             
-			CreatePlayer(2, Player.Type.MARKSMAN);
+			if (i < 2)
+			{
+				CreatePlayer(2, Player.Type.PROTECTOR);
+			}
+			else
+			{
+				CreatePlayer(2, Player.Type.MARKSMAN);
+			}
         }
 	}
 	
