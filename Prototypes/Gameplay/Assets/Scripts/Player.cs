@@ -22,9 +22,11 @@ public abstract class Player : MonoBehaviour
 	GameObject _fogMask;
 
     // grenades
-    int _numGrenade = 99;
-    float _launchGrenadeTimer = 0.0f;
-    GameObject _grenadePrefab;
+    public int _numGrenade = 99;
+    public float _launchGrenadeTimer = 0.0f;
+    public GameObject _grenadePrefab;
+
+    public static float GRENADE_LAUNCH_TIME = 2.0f;
 
 
     // When the player spawn
@@ -75,9 +77,11 @@ public abstract class Player : MonoBehaviour
     protected virtual void Update () {
 		// user can control the main player
 		GetComponent<ThirdPersonController>().enabled = (_mainCamera != null);
+        GetComponent<IAController>().enabled = _mainCamera == null;
+        GetComponent<NavMeshAgent>().enabled = _mainCamera == null;
 
         // Grenade
-        if (_launchGrenadeTimer > 2.0f && _numGrenade > 0)
+        if (_launchGrenadeTimer > GRENADE_LAUNCH_TIME && _numGrenade > 0)
         {
             // main player launch a grenade
             if (mainCamera != null)
@@ -90,10 +94,10 @@ public abstract class Player : MonoBehaviour
             }
             else // AI todo
             {
-                if (false)
+                /*if (false)
                 {
                     launchGrenade();
-                }
+                }*/
             }
         }
 
@@ -107,10 +111,11 @@ public abstract class Player : MonoBehaviour
         _numGrenade--;
         
         Vector3 vel = getCursorWorldPosition() - transform.position;
-        vel.Normalize();
+        vel /= 20.0f;
+        //  vel.Normalize();
         vel.y = 0.15f;
         GameObject grenade = Object.Instantiate(_grenadePrefab, transform.position + 0.5f * vel, Quaternion.identity) as GameObject;
-        grenade.GetComponent<Rigidbody>().velocity = 20.0f * vel;
+        grenade.GetComponent<Rigidbody>().velocity = 20.0f *  vel;
     }
 
 
@@ -141,7 +146,7 @@ public abstract class Player : MonoBehaviour
 
         if (isProtected)
         {
-            Debug.Log("protected");
+            //Debug.Log("protected");
             damage *= 0.5f; 
         }
 		_health -= damage;
@@ -184,4 +189,13 @@ public abstract class Player : MonoBehaviour
 			return _health;
 		}
 	}
+
+    public int enemyteam()
+    {
+        if (_team == 1)
+            return 2;
+        if (team == 2)
+            return 1;
+        else return 0;
+    }
 }

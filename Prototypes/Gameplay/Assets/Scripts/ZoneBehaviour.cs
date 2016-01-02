@@ -5,32 +5,42 @@ using System.Linq;
 
 public class ZoneBehaviour : MonoBehaviour {
 
-    public bool isPlayerInArea = false;
     public MeshRenderer rend;
-    GameObject[] players;
-
     public float captureDuration = 3.0f;
-
+    public int dangerLevel;
     /*timer for the capture*/
     public float captureTimer;
 
     /*id of the owner team, 0: none, 1: red, 2: blue*/
-    int ownerTeam;
+    public int ownerTeam;
 
     /*list of player currently in the area*/
     List<GameObject> playersInArea = new List<GameObject>();
 
+
 	// Use this for initialization
 	void Start () {
         rend = GetComponent<MeshRenderer>();
-        players = GameObject.FindGameObjectsWithTag("Player");
         captureTimer = 0;
         ownerTeam = 0;
+        dangerLevel = 0; //0
     }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
         int teamInArea = getTeamInArea();
+        if(teamInArea != 0 && teamInArea != ownerTeam)
+        {
+            if (teamInArea == -1)
+                dangerLevel = 1;//teammate are defending the area
+            else
+                dangerLevel = 2;//no teamate defending the area
+        }
+        else
+        {
+            dangerLevel = 0;//no danger
+        }
+
         manageTimer(teamInArea);
         setOwnerTeam(teamInArea);
         setAreaColor(ownerTeam);
@@ -57,7 +67,6 @@ public class ZoneBehaviour : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             playersInArea.Remove(other.gameObject);
-            isPlayerInArea = false;
         }
     }
 
@@ -89,6 +98,7 @@ public class ZoneBehaviour : MonoBehaviour {
     {
         int teamId;
         int teamInArea = 0;
+
         foreach (GameObject player in playersInArea)
         {
             teamId = player.GetComponent<Player>().team;
