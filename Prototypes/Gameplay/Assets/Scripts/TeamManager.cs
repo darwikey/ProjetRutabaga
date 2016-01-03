@@ -22,7 +22,7 @@ public class TeamManager : MonoBehaviour {
     void Start () {
 	    for (uint i = 0; i < _numPlayers; i++)
         {
-			CreatePlayer(1, Player.Type.ENGINEER);
+			CreatePlayer(1, Player.Type.MARKSMAN);
             
 			if (i < 2)
 			{

@@ -10,22 +10,22 @@ public class Obstacle : MonoBehaviour {
 
 	// Initialization
 	void Start () {
-        updateObstacle();
+        UpdateObstacle();
 	}
 	
-	public void built()
+	public void Built()
     {
         _life = 10;
-        updateObstacle();
+        UpdateObstacle();
     }
 
-    public void setDamage(int damage)
+    public void SetDamage(int damage)
     {
         _life -= damage;
-        updateObstacle();
+        UpdateObstacle();
     }
 
-    void updateObstacle()
+    void UpdateObstacle()
     {
         if (_life <= 0)
         {

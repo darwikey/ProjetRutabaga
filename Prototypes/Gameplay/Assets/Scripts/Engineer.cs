@@ -24,7 +24,7 @@ public class Engineer : Player
                 Obstacle obstacle = _obstacleManager.nearestObstacle(transform.position, out obsDist);
                 if (obstacle != null && obsDist < 6.0f)
                 {
-                    obstacle.built();
+                    obstacle.Built();
                 }
             }
         }
