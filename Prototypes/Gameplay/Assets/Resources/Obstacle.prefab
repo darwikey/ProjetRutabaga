@@ -87,16 +87,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbb9636818ca6bb4cb3b523395fd30d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boundingBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  _hiddenMaterial: {fileID: 2100000, guid: cafb9db6bd6b34d47952321f2a6eb411, type: 2}
+  _builtMaterial: {fileID: 2100000, guid: 324e3d4ce7dc7e340a5bb3faee02b9b8, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: _hiddenMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: cafb9db6bd6b34d47952321f2a6eb411, type: 2}
+    - target: {fileID: 0}
+      propertyPath: _builtMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 324e3d4ce7dc7e340a5bb3faee02b9b8, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 113324}
