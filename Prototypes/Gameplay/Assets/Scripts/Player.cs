@@ -14,7 +14,8 @@ public abstract class Player : MonoBehaviour
 	protected Camera _mainCamera;
 
 	public int _team = 1;
-    TeamManager _tm;
+    protected TeamManager _tm;
+    protected ObstacleManager _obstacleManager;
 
     protected float _health = 0.0f;
 
@@ -33,6 +34,7 @@ public abstract class Player : MonoBehaviour
 		_health = 100.0f;
 
         _tm = GameObject.Find("TeamManager").GetComponent<TeamManager>();
+        _obstacleManager = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>();
 
         // Minimap icon
         if (_minimapIcon == null) {

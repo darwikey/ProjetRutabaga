@@ -20,10 +20,14 @@ public class Buildings : MonoBehaviour
     List<Vector2> _obstacleUvs = new List<Vector2>();
     List<int> _obstacleTriangles = new List<int>();
 
+    ObstacleManager _obstacleManager;
+
 
     // Use this for initialization
     void Start()
     {
+        _obstacleManager = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>();
+
         Mesh mesh = new Mesh();
 
         Color32[] table = _texture.GetPixels32();
@@ -43,7 +47,7 @@ public class Buildings : MonoBehaviour
                     continue;
                 }
 
-                addBlock(x0, y0, table, c, true);
+                addBlock(x0, y0, table, c, true, Vector3.zero);
             }
         }
 
@@ -59,7 +63,7 @@ public class Buildings : MonoBehaviour
     }
 
 
-    void addBlock(int x0, int y0, Color32[] table, Color32 c, bool isWall)
+    void addBlock(int x0, int y0, Color32[] table, Color32 c, bool isWall, Vector3 offset)
     {
         float blockHeight = _obstacleHeight;
         if (isWall)
@@ -70,26 +74,26 @@ public class Buildings : MonoBehaviour
         // quad each side
         if (x0 == 0 || table[(x0 - 1) * _texture.height + y0].g != c.g)
         {
-            addQuad(new Vector3(_blockSize * x0, 0.0f, _blockSize * y0), new Vector3(0.0f, 0.0f, _blockSize), new Vector3(0.0f, blockHeight, 0.0f), new Vector3(-1.0f, 0.0f, 0.0f), isWall);
+            addQuad(new Vector3(_blockSize * x0, 0.0f, _blockSize * y0) + offset, new Vector3(0.0f, 0.0f, _blockSize), new Vector3(0.0f, blockHeight, 0.0f), new Vector3(-1.0f, 0.0f, 0.0f), isWall);
         }
 
         if (x0 == _texture.width - 1 || table[(x0 + 1) * _texture.width + y0].g != c.g)
         {
-            addQuad(new Vector3(_blockSize * (x0 + 1), 0.0f, _blockSize * y0), new Vector3(0.0f, blockHeight, 0.0f), new Vector3(0.0f, 0.0f, _blockSize), new Vector3(1.0f, 0.0f, 0.0f), isWall);
+            addQuad(new Vector3(_blockSize * (x0 + 1), 0.0f, _blockSize * y0) + offset, new Vector3(0.0f, blockHeight, 0.0f), new Vector3(0.0f, 0.0f, _blockSize), new Vector3(1.0f, 0.0f, 0.0f), isWall);
         }
 
         if (y0 == 0 || table[x0 * _texture.height + y0 - 1].g != c.g)
         {
-            addQuad(new Vector3(_blockSize * x0, 0.0f, _blockSize * y0), new Vector3(0.0f, blockHeight, 0.0f), new Vector3(_blockSize, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, -1.0f), isWall);
+            addQuad(new Vector3(_blockSize * x0, 0.0f, _blockSize * y0) + offset, new Vector3(0.0f, blockHeight, 0.0f), new Vector3(_blockSize, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, -1.0f), isWall);
         }
 
         if (y0 == _texture.height - 1 || table[x0 * _texture.height + y0 + 1].g != c.g)
         {
-            addQuad(new Vector3(_blockSize * x0, 0.0f, _blockSize * (y0 + 1)), new Vector3(_blockSize, 0.0f, 0.0f), new Vector3(0.0f, blockHeight, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), isWall);
+            addQuad(new Vector3(_blockSize * x0, 0.0f, _blockSize * (y0 + 1)) + offset, new Vector3(_blockSize, 0.0f, 0.0f), new Vector3(0.0f, blockHeight, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), isWall);
         }
 
         // on top
-        addQuad(new Vector3(_blockSize * x0, blockHeight, _blockSize * y0), new Vector3(0.0f, 0.0f, _blockSize), new Vector3(_blockSize, 0.0f, 0.0f), new Vector3(0.0f, 1.0f, 0.0f), isWall);
+        addQuad(new Vector3(_blockSize * x0, blockHeight, _blockSize * y0) + offset, new Vector3(0.0f, 0.0f, _blockSize), new Vector3(_blockSize, 0.0f, 0.0f), new Vector3(0.0f, 1.0f, 0.0f), isWall);
     }
 
     void addQuad(Vector3 point1, Vector3 vector1, Vector3 vector2, Vector3 normal, bool isWall)
@@ -141,8 +145,10 @@ public class Buildings : MonoBehaviour
 
     void buildObstacle(int x0, int y0, Color32[] table, Color32 c)
     {
+        // Instantiate obstacle
         GameObject obstacle = Instantiate(Resources.Load<GameObject>("Obstacle"), Vector3.zero, Quaternion.identity) as GameObject;
 
+        // Obstacle mesh
         Mesh mesh = new Mesh();
 
         _obstacleVertices.Clear();
@@ -150,6 +156,7 @@ public class Buildings : MonoBehaviour
         _obstacleUvs.Clear();
         _obstacleTriangles.Clear();
 
+        // Find the height and the width of the obstacle
         int xMax = x0, yMax = y0;
         for (xMax = x0; xMax < _texture.width;)
         {
@@ -167,12 +174,14 @@ public class Buildings : MonoBehaviour
                 break;
             }
         }
+        obstacle.transform.position = new Vector3((x0 + xMax) * 0.5f * _blockSize, 0.0f, (y0 + yMax) * 0.5f * _blockSize);
+
         // Build mesh
         for (int x1 = x0; x1 < xMax; x1++)
         {
             for (int y1 = y0; y1 < yMax; y1++)
             {
-                addBlock(x1, y1, table, c, false);
+                addBlock(x1, y1, table, c, false, -obstacle.transform.position);
             }
         }
         // clear obstacle pixels
@@ -190,14 +199,10 @@ public class Buildings : MonoBehaviour
         mesh.triangles = _obstacleTriangles.ToArray();
         mesh.RecalculateBounds();
 
-        //obstacle.transform.position = new Vector3((x0 + xMax)* 0.5f * _blockSize, 0.0f, (y0 + yMax) * 0.5f * _blockSize);
         obstacle.GetComponent<MeshFilter>().sharedMesh = mesh;
         obstacle.GetComponent<MeshCollider>().sharedMesh = mesh;
+
+        _obstacleManager.obstacles.Add(obstacle.GetComponent<Obstacle>());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

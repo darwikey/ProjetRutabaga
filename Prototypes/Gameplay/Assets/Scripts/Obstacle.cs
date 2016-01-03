@@ -8,9 +8,26 @@ public class Obstacle : MonoBehaviour {
     int _life = 0;
 
 
-	// Use this for initialization
+	// Initialization
 	void Start () {
-	    if (_life <= 0)
+        updateObstacle();
+	}
+	
+	public void built()
+    {
+        _life = 10;
+        updateObstacle();
+    }
+
+    public void setDamage(int damage)
+    {
+        _life -= damage;
+        updateObstacle();
+    }
+
+    void updateObstacle()
+    {
+        if (_life <= 0)
         {
             GetComponent<MeshRenderer>().material = _hiddenMaterial;
             GetComponent<MeshCollider>().enabled = false;
@@ -20,10 +37,5 @@ public class Obstacle : MonoBehaviour {
             GetComponent<MeshRenderer>().material = _builtMaterial;
             GetComponent<MeshCollider>().enabled = true;
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
 }
