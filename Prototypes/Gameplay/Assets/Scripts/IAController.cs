@@ -11,15 +11,16 @@ public class IAController : MonoBehaviour {
 	void Start () {
         _agent = GetComponent<NavMeshAgent>();
         _player = GetComponent<Player>();
- 
+        _zones = GameObject.FindGameObjectsWithTag("Zone");
+
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         if (_player == null)
             Destroy(this);
         //set destination
-        _zones = GameObject.FindGameObjectsWithTag("Zone");
         GameObject target = targetZone();
         if(target != null)
         _agent.SetDestination(target.transform.position);
