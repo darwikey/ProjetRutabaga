@@ -8,13 +8,29 @@ public class Marksman : Player
 	float _shootTimer = 0.0f;
 	float _bulletLineTimer = 0.0f;
 
-	protected override void Update()
+    public const float _shootRate = 0.5f;
+    public const float _bulletTime = 0.2f;
+
+    public override void Start()
+    {
+        base.Start();
+        if (_bulletLine == null)
+        {
+            _bulletLine = gameObject.AddComponent<LineRenderer>();
+            _bulletLine.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            _bulletLine.material = Resources.Load("bulletLineMat") as Material;
+        }
+    }
+
+    protected override void Update()
 	{	
 		base.Update ();
-		
-		if (_shootTimer > 0.5f)
-		{
 
+        
+       
+
+        if (_shootTimer > _shootRate)
+		{
 			// the main player shoots
 			if (_mainCamera != null)
             {
@@ -27,20 +43,12 @@ public class Marksman : Player
 					mainPlayerShoot ();
 				}
 			}
-			// IA shoots
-			else
-            {
-			
-				// TODO reset timer
-
-
-			}
 		}
 
 		// bullet line
 		if (_bulletLine != null) 
 		{
-			if (_bulletLineTimer > 0.2f) 
+            if (_bulletLineTimer > _bulletTime) 
 			{
 				// disable the bullet line after a delay
 				if (_bulletLine != null) 
@@ -67,13 +75,6 @@ public class Marksman : Player
 	{
         // Raycast for the mouse
         Vector3 cursorPos = getCursorWorldPosition();
-
-		if (_bulletLine == null) 
-		{
-			_bulletLine = gameObject.AddComponent<LineRenderer>();
-			_bulletLine.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-			_bulletLine.material = Resources.Load("bulletLineMat") as Material;
-		}
 
 		_bulletLine.enabled = true;
 		_bulletLine.SetVertexCount (2);
@@ -125,14 +126,55 @@ public class Marksman : Player
 
     protected void AI_ManageShot()
     {
-
-
-        foreach(Player foe in _tm.getPlayerList(enemyteam()))
+        if (_shootTimer > _shootRate)
         {
-            //foe.transform.position;
 
+            _bulletLine.SetVertexCount(2);
+            _bulletLine.SetPosition(0, transform.position);
+            _bulletLine.SetWidth(0.1f, 0.1f);
+
+            Player target = null;
+            Vector3 targetPoint = Vector3.zero;
+
+            foreach (Player foe in _tm.getPlayerList(enemyteam()))
+            {
+                Vector3 targetpos = foe.transform.position;
+                Vector3 direction = targetpos - transform.position;
+                direction.Normalize();
+                direction.y = 0.0f;
+
+                // find a target
+                RaycastHit bulletHit;
+                if (Physics.Raycast(transform.position + direction, direction, out bulletHit, 100))
+                {
+                    // if the bullet hits a player of the other team
+                    Player hitPlayer = bulletHit.collider.GetComponent<Player>();
+                    if (hitPlayer != null && hitPlayer.team != _team)
+                    {
+
+                        if (Vector3.Distance(hitPlayer.transform.position, transform.position) < _tm._visibilityDistance)
+                        {
+                            if (target == null || Vector3.Distance(target.transform.position, transform.position) > Vector3.Distance(hitPlayer.transform.position, transform.position))
+                            {
+
+                                target = hitPlayer;
+                                targetPoint = bulletHit.point;
+                            }
+                        }
+                    }
+                }
+
+                //if target found, shot
+                if (target != null)
+                {
+                    target.SetDamage(1.0f);
+                    _bulletLine.SetPosition(1, targetPoint);
+                    _bulletLineTimer = 0.0f;
+                    _bulletLine.enabled = true;
+                    _shootTimer = 0.0f;
+                }
+            }
         }
-
     }
 
 
