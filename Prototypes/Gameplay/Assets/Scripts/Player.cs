@@ -28,6 +28,9 @@ public abstract class Player : MonoBehaviour
 
     public static float GRENADE_LAUNCH_TIME = 2.0f;
 
+      NavMeshAgent _agent;
+    GameObject[] _zones;
+
 
     // When the player spawn
     public virtual void Start()
@@ -70,6 +73,9 @@ public abstract class Player : MonoBehaviour
 
         // grenade
         _grenadePrefab = Resources.Load("Grenade") as GameObject;
+
+        if (_mainCamera == null)
+            AI_Start();
     }
 
 
@@ -77,7 +83,6 @@ public abstract class Player : MonoBehaviour
     protected virtual void Update () {
 		// user can control the main player
 		GetComponent<ThirdPersonController>().enabled = (_mainCamera != null);
-        GetComponent<IAController>().enabled = _mainCamera == null;
         GetComponent<NavMeshAgent>().enabled = _mainCamera == null;
 
         // Grenade
@@ -92,13 +97,12 @@ public abstract class Player : MonoBehaviour
                     launchGrenade();  
                 }
             }
-            else // AI todo
-            {
-                /*if (false)
-                {
-                    launchGrenade();
-                }*/
-            }
+        }
+
+        /* BOT AI */
+        if(mainCamera == null)
+        {
+            AI_Update();
         }
 
         _launchGrenadeTimer += Time.deltaTime;
@@ -153,7 +157,105 @@ public abstract class Player : MonoBehaviour
 	}
 
 
-	public abstract Type playerType 
+    /* ========================================================================================= */
+    /* AI */
+
+
+    protected void AI_Start()
+    {
+        _agent = GetComponent<NavMeshAgent>();
+        _zones = GameObject.FindGameObjectsWithTag("Zone");
+
+    }
+    /* update AI choices */
+    protected void AI_Update()
+    {
+        //set destination
+        GameObject target = AI_TargetZone();
+        if (target != null)
+            _agent.SetDestination(target.transform.position);
+
+        AI_ManageGrenade();
+    }
+
+    protected GameObject AI_TargetZone()
+    {
+        GameObject target = null;
+        NavMeshPath path = new NavMeshPath();
+
+        ZoneBehaviour z;
+
+        foreach (GameObject zone in _zones)
+        {
+            z = zone.GetComponent<ZoneBehaviour>();
+            if (z.ownerTeam != team || z.dangerLevel > 0)
+            {
+                if (target == null)
+                    target = zone;
+                else
+                {
+                    if (Vector3.Distance(transform.position, zone.transform.position) < Vector3.Distance(transform.position, target.transform.position))
+                        target = zone;
+                }
+            }
+        }
+        return target;
+    }
+
+    // decide in wich zone we trow a grenade
+    protected GameObject AI_TargetGrenadeZone()
+    {
+        GameObject target = null;
+        ZoneBehaviour z;
+
+        foreach (GameObject zone in _zones)
+        {
+            z = zone.GetComponent<ZoneBehaviour>();
+            if (z.getTeamInArea() == enemyteam() && z.dangerLevel >= 2 && Vector3.Distance(z.transform.position, transform.position) < 50.0f)
+            {
+                if (target == null)
+                    target = zone;
+                else
+                {
+                    if (Vector3.Distance(transform.position, zone.transform.position) < Vector3.Distance(transform.position, target.transform.position))
+                        target = zone;
+                }
+            }
+        }
+        return target;
+
+    }
+
+
+    // manage the grenade launching
+    protected void AI_ManageGrenade()
+    {
+        //if we can't launch a grenade
+        if (_launchGrenadeTimer < Player.GRENADE_LAUNCH_TIME || _numGrenade < 1)
+            return;
+
+        GameObject target = AI_TargetGrenadeZone();
+        if (target == null)
+            return;
+
+        _launchGrenadeTimer = 0.0f;
+        _numGrenade--;
+
+        Vector3 vel = target.transform.position - transform.position;
+        vel /= 20.0f;
+        vel *= 0.75f;//anticipate roll
+        vel.y = 0.15f;
+        GameObject grenade = Object.Instantiate(_grenadePrefab, transform.position + 0.5f * vel, Quaternion.identity) as GameObject;
+        grenade.GetComponent<Rigidbody>().velocity = 20.0f * vel;
+
+    }
+
+    /* AI */
+    /* =================================================================================================== */
+
+
+
+    public abstract Type playerType 
 	{
 		get;
 	}
