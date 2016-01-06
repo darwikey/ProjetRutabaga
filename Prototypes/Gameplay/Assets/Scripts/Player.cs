@@ -14,7 +14,7 @@ public abstract class Player : MonoBehaviour
 	protected Camera _mainCamera;
 
 	public int _team = 1;
-    TeamManager _tm;
+    protected TeamManager _tm;
 
     protected float _health = 0.0f;
 
@@ -22,14 +22,16 @@ public abstract class Player : MonoBehaviour
 	GameObject _fogMask;
 
     // grenades
-    public int _numGrenade = 99;
-    public float _launchGrenadeTimer = 0.0f;
-    public GameObject _grenadePrefab;
+    protected int _numGrenade = 99;
+    protected float _launchGrenadeTimer = 0.0f;
+    protected GameObject _grenadePrefab;
 
-    public static float GRENADE_LAUNCH_TIME = 2.0f;
+    protected static float GRENADE_LAUNCH_TIME = 2.0f;
 
-      NavMeshAgent _agent;
-    GameObject[] _zones;
+    protected NavMeshAgent _agent;
+    protected GameObject[] _zones;
+    protected GameObject[] _foes;
+    protected GameObject[] _teammates;
 
 
     // When the player spawn
@@ -161,14 +163,14 @@ public abstract class Player : MonoBehaviour
     /* AI */
 
 
-    protected void AI_Start()
+    protected virtual void AI_Start()
     {
         _agent = GetComponent<NavMeshAgent>();
         _zones = GameObject.FindGameObjectsWithTag("Zone");
 
     }
     /* update AI choices */
-    protected void AI_Update()
+    protected virtual void AI_Update()
     {
         //set destination
         GameObject target = AI_TargetZone();
@@ -252,7 +254,7 @@ public abstract class Player : MonoBehaviour
 
     /* AI */
     /* =================================================================================================== */
-
+    
 
 
     public abstract Type playerType 

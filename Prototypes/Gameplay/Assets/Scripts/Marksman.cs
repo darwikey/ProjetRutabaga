@@ -109,8 +109,35 @@ public class Marksman : Player
 		_bulletLineTimer = 0.0f;
 	}
 
+    /* ================================================================= */
+    /* AI */
 
-	public override Type playerType
+    protected override void AI_Update()
+    {
+        base.AI_Update();
+        AI_ManageShot();
+    }
+
+    protected void AI_ManageShot()
+    {
+
+
+        foreach(Player foe in _tm.getPlayerList(enemyteam()))
+        {
+            foe.transform.position;
+
+        }
+
+    }
+
+
+    /* AI */
+    /* ================================================================= */
+
+
+
+
+    public override Type playerType
 	{
 		get 
 		{
