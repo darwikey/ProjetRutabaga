@@ -186,4 +186,12 @@ public abstract class Player : MonoBehaviour
 			return _health;
 		}
 	}
+
+    public virtual bool canRun
+    {
+        get
+        {
+            return true;
+        }
+    }
 }

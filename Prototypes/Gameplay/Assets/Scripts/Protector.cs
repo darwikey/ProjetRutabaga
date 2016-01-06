@@ -22,4 +22,12 @@ public class Protector : Player
 			return Type.PROTECTOR;
 		}
 	}
+
+    public override bool canRun
+    {
+        get
+        {
+            return false;
+        }
+    }
 }

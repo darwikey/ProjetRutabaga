@@ -134,7 +134,7 @@ public class ThirdPersonController : MonoBehaviour
 		_characterState = CharacterState.Idle;
 		
 		// Pick speed modifier
-		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift))
+		if (GetComponent<Player>().canRun)
 		{
 			targetSpeed *= runSpeed;
 			_characterState = CharacterState.Running;
@@ -145,8 +145,7 @@ public class ThirdPersonController : MonoBehaviour
 			_characterState = CharacterState.Walking;
 		}
 		
-		moveSpeed = Mathf.Lerp (moveSpeed, targetSpeed, curSmooth);
-		
+		moveSpeed = Mathf.Lerp (moveSpeed, targetSpeed, curSmooth);		
 	}
 	
 

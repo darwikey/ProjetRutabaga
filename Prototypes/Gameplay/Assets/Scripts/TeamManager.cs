@@ -10,8 +10,9 @@ public class TeamManager : MonoBehaviour {
     public Transform _spawner2;
     public float _spawnRadius = 5.0f;
 	public float _visibilityDistance = 25.0f;
+    public Player.Type _mainPlayerType = Player.Type.MARKSMAN;
 
-	List<Player> _team1 = new List<Player>();
+    List<Player> _team1 = new List<Player>();
 	List<Player> _team2 = new List<Player>();
     List<Player> _players = new List<Player>();
 
@@ -22,7 +23,7 @@ public class TeamManager : MonoBehaviour {
     void Start () {
 	    for (uint i = 0; i < _numPlayers; i++)
         {
-			CreatePlayer(1, Player.Type.MARKSMAN);
+			CreatePlayer(1, _mainPlayerType);
             
 			if (i < 2)
 			{
