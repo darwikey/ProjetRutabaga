@@ -43,6 +43,8 @@ public class TeamManager : MonoBehaviour {
 			if (player.health <= 0.0f)
 			{
 				SpawnPlayer(player);
+                // speed null
+                player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 				player.Start();
 			}
 		}

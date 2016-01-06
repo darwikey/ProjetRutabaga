@@ -95,6 +95,11 @@ public class Marksman : Player
 			{
 				hitPlayer.SetDamage(60.0f);
 			}
+			Obstacle hitObstacle = bulletHit.collider.GetComponent<Obstacle>();
+			if (hitObstacle != null)
+			{
+				hitObstacle.SetDamage(1);
+			}
 
 			// end of the bullet line
 			_bulletLine.SetPosition (1, bulletHit.point);
@@ -124,7 +129,7 @@ public class Marksman : Player
 
         foreach(Player foe in _tm.getPlayerList(enemyteam()))
         {
-            foe.transform.position;
+            //foe.transform.position;
 
         }
 
