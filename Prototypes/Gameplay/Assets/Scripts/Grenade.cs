@@ -9,12 +9,13 @@ public class Grenade : MonoBehaviour {
 
     float _timer = 0.0f;
     TeamManager _tm;
-
+	ObstacleManager _om;
 
     // Use this for initialization
     void Start () {
         _tm = GameObject.Find("TeamManager").GetComponent<TeamManager>();
-    }
+		_om = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>();
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -37,6 +38,15 @@ public class Grenade : MonoBehaviour {
                     player.GetComponent<Rigidbody>().velocity = 15.0f * dir;
                 }
             }
+
+			// damages on obstacles
+			foreach(Obstacle obstacle in _om.obstacles)
+			{
+				if (Vector3.Distance(transform.position, obstacle.transform.position) < _blastRadius)
+				{
+					obstacle.SetDamage(3);
+				}
+			}
 
             // particles
             GameObject ps = Instantiate(_explosionPrefab, transform.position, Quaternion.identity) as GameObject;
