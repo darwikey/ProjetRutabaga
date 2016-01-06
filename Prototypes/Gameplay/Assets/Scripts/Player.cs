@@ -297,6 +297,7 @@ public abstract class Player : MonoBehaviour
 		}
 	}
 
+
     public int enemyteam()
     {
         if (_team == 1)
@@ -304,5 +305,13 @@ public abstract class Player : MonoBehaviour
         if (team == 2)
             return 1;
         else return 0;
+    }
+    
+    public virtual bool canRun
+    {
+        get
+        {
+            return true;
+        }
     }
 }
