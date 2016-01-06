@@ -6,8 +6,7 @@ using System.Linq;
 public class TeamManager : MonoBehaviour {
 	
     public uint _numPlayers = 5;
-    public Transform _spawner1;
-    public Transform _spawner2;
+    public List<Vector3> _spawnerPositions = new List<Vector3>();
     public float _spawnRadius = 5.0f;
 	public float _visibilityDistance = 25.0f;
     public Player.Type _mainPlayerType = Player.Type.MARKSMAN;
@@ -21,6 +20,12 @@ public class TeamManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        if (_spawnerPositions.Count < 2)
+        {
+            Debug.LogError("map needs two spawners");
+            return;
+        }
+
 	    for (uint i = 0; i < _numPlayers; i++)
         {
 			CreatePlayer(1, _mainPlayerType);
@@ -126,11 +131,11 @@ public class TeamManager : MonoBehaviour {
 		// team dependant
 		if (player.team == 1)
 		{
-			player.transform.position = _spawner1.position + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
+			player.transform.position = _spawnerPositions[0] + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
 		}
 		else
 		{
-			player.transform.position = _spawner2.position + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
+			player.transform.position = _spawnerPositions[1] + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
 		}
 
 	}

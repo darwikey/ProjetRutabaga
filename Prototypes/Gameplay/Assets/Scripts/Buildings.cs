@@ -23,10 +23,11 @@ public class Buildings : MonoBehaviour
     ObstacleManager _obstacleManager;
 
 
-    // Use this for initialization
-    void Start()
+    void Awake()
     {
+        TeamManager teamManager = GameObject.Find("TeamManager").GetComponent<TeamManager>();
         _obstacleManager = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>();
+        List<Vector3> _spawnerPositions = new List<Vector3>();
 
         Mesh mesh = new Mesh();
 
@@ -44,6 +45,15 @@ public class Buildings : MonoBehaviour
                 else if (c.g == 230) //green for obstacles
                 {
                     buildObstacle(x0, y0, table, c);
+                    continue;
+                }
+                else if (c.g == 100) // orange for spawner
+                {
+                    // create a spawner
+                    Vector3 spawnerPos = new Vector3(_blockSize * x0, 0.0f, _blockSize * y0);
+                    GameObject spawner = Instantiate(Resources.Load<GameObject>("Spawner")) as GameObject;
+                    spawner.transform.position = spawnerPos;
+                    teamManager._spawnerPositions.Add(spawnerPos);
                     continue;
                 }
 
