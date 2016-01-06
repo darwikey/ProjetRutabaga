@@ -170,7 +170,7 @@ MonoBehaviour:
   _spawnerPositions: []
   _spawnRadius: 5
   _visibilityDistance: 25
-  _mainPlayerType: 2
+  _mainPlayerType: 0
 --- !u!4 &128870768
 Transform:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class Buildings : MonoBehaviour
     {
         TeamManager teamManager = GameObject.Find("TeamManager").GetComponent<TeamManager>();
         _obstacleManager = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>();
-        List<Vector3> _spawnerPositions = new List<Vector3>();
+		GameObject zonePrefab = Resources.Load<GameObject>("zone");
 
         Mesh mesh = new Mesh();
 
@@ -56,6 +56,12 @@ public class Buildings : MonoBehaviour
                     teamManager._spawnerPositions.Add(spawnerPos);
                     continue;
                 }
+				else if (c.g == 50) // violet for zone
+				{
+					GameObject zone = Instantiate(zonePrefab) as GameObject;
+					zone.transform.position = new Vector3(_blockSize * x0, 0.0f, _blockSize * y0);
+					continue;
+				}
 
                 addBlock(x0, y0, table, c, true, Vector3.zero);
             }
