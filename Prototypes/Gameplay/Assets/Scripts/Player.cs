@@ -98,7 +98,6 @@ public abstract class Player : MonoBehaviour
     protected virtual void Update () {
 
         _tpc.isControllable = isMainPlayer();
-
         //_tpc.enabled = isMainPlayer();
         //
 

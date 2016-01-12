@@ -25,6 +25,16 @@ public class TeamManager : MonoBehaviour {
     void Start () {
         if (_spawnerPositions.Count < 2)
         {
+            GameObject[] spawners = GameObject.FindGameObjectsWithTag("spawner");
+            foreach (GameObject sp in spawners)
+            {
+                _spawnerPositions.Add(sp.transform.position);
+            }
+
+        }
+
+        if (_spawnerPositions.Count < 2)
+        {
             Debug.LogError("map needs two spawners");
             return;
         }
@@ -134,11 +144,11 @@ public class TeamManager : MonoBehaviour {
 		// team dependant
 		if (player.team == 1)
 		{
-			player.transform.position = _spawnerPositions[0] + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
+			player.transform.position = _spawnerPositions[0] + new Vector3(spawnPos.x, 0.5f, spawnPos.y);
 		}
 		else
 		{
-			player.transform.position = _spawnerPositions[1] + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
+			player.transform.position = _spawnerPositions[1] + new Vector3(spawnPos.x, 0.5f, spawnPos.y);
 		}
 
 	}
