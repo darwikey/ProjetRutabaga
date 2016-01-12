@@ -203,7 +203,7 @@ public abstract class Player : MonoBehaviour
 
         AI_ManageGrenade();
 
-        if (TeamManager.DEBUG_MODE)
+        if (_tm.DEBUG_MODE)
         {
             AI_DEBUG_drawPath();
         }

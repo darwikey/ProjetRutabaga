@@ -1711,7 +1711,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190538}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 860db1e02d2ed07498255377b96a8230, type: 3}
   m_Name: 
@@ -1727,6 +1727,7 @@ MonoBehaviour:
   runSpeed: 6
   speedSmoothing: 10
   rotateSpeed: 50000
+  isControllable: 1
 --- !u!120 &12053032
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -1736,7 +1737,8 @@ LineRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_Materials: []
+  m_Materials:
+  - {fileID: 2100000, guid: c4436406db077b041b2a10af04e8475e, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -1760,7 +1762,7 @@ LineRenderer:
     endWidth: 1
     m_StartColor:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 4278190335
     m_EndColor:
       serializedVersion: 2
       rgba: 4294967295
@@ -1897,16 +1899,24 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_BaseOffset
       value: .800000012
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Parameters.m_StartColor.rgba
-      value: 4294967295
+      value: 4278190335
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Parameters.m_EndColor.rgba
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
