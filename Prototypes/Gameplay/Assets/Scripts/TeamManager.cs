@@ -10,7 +10,7 @@ public class TeamManager : MonoBehaviour {
 
     public uint _numPlayers = 5;
     public List<Vector3> _spawnerPositions = new List<Vector3>();
-    public float _spawnRadius = 5.0f;
+    public float _spawnRadius = 1.0f;
 	public float _visibilityDistance = 25.0f;
     public Player.Type _mainPlayerType = Player.Type.MARKSMAN;
 

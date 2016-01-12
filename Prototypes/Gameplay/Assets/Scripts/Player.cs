@@ -38,6 +38,7 @@ public abstract class Player : MonoBehaviour
     //an object used for debug 
     protected GameObject _debugChild;
 
+    protected ThirdPersonController _tpc;
 
     // When the player spawn
     public virtual void Start()
@@ -46,6 +47,10 @@ public abstract class Player : MonoBehaviour
 
         _tm = GameObject.Find("TeamManager").GetComponent<TeamManager>();
         _obstacleManager = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>();
+        _tpc = GetComponent<ThirdPersonController>();
+        
+        // activate navmesh for bots
+        GetComponent<NavMeshAgent>().enabled = _mainCamera == null;
 
         // Minimap icon
         if (_minimapIcon == null) {
@@ -82,18 +87,22 @@ public abstract class Player : MonoBehaviour
         // grenade
         _grenadePrefab = Resources.Load("Grenade") as GameObject;
 
-        if (_mainCamera == null)
+        if (!isMainPlayer())
             AI_Start();
 
- 
+
     }
 
 
     // Update is called once per frame
     protected virtual void Update () {
-		// user can control the main player
-		GetComponent<ThirdPersonController>().enabled = (_mainCamera != null);
-        GetComponent<NavMeshAgent>().enabled = _mainCamera == null;
+
+        _tpc.isControllable = isMainPlayer();
+
+        //_tpc.enabled = isMainPlayer();
+        //
+
+
 
         // Grenade
         if (_launchGrenadeTimer > GRENADE_LAUNCH_TIME && _numGrenade > 0)
@@ -190,6 +199,10 @@ public abstract class Player : MonoBehaviour
         GameObject target = AI_TargetZone();
         if (target != null)
             _agent.SetDestination(target.transform.position);
+
+        //set animation
+        if(Vector3.Distance(transform.position, target.transform.position) > 0.5f)
+            
 
         AI_ManageGrenade();
 
@@ -306,10 +319,10 @@ public abstract class Player : MonoBehaviour
     
 
 
-
-
-
-
+   public bool isMainPlayer()
+    {
+        return (_mainCamera != null);
+    }
 
     public abstract Type playerType 
 	{
@@ -328,7 +341,7 @@ public abstract class Player : MonoBehaviour
 		}
 	}
 
-	public int team
+    public int team
 	{
 		get
 		{

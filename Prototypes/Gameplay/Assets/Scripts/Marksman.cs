@@ -88,7 +88,7 @@ public class Marksman : Player
 
 		// Raycast for bullet
 		RaycastHit bulletHit;
-		if (Physics.Raycast (transform.position + direction, direction, out bulletHit, 100)) 
+		if (Physics.Raycast (transform.position + direction*0.1f, direction, out bulletHit, 100)) 
 		{
 			// if the bullet hits a player of the other team
 			Player hitPlayer = bulletHit.collider.GetComponent<Player>();
@@ -145,7 +145,7 @@ public class Marksman : Player
 
                 // find a target
                 RaycastHit bulletHit;
-                if (Physics.Raycast(transform.position + direction, direction, out bulletHit, 100))
+                if (Physics.Raycast(transform.position + direction*0.1f, direction, out bulletHit, 100))
                 {
                     // if the bullet hits a player of the other team
                     Player hitPlayer = bulletHit.collider.GetComponent<Player>();
@@ -180,7 +180,7 @@ public class Marksman : Player
                 direction.y = 0;
 
                 RaycastHit bulletHit;
-                if (Physics.Raycast(transform.position + direction, direction, out bulletHit, 100))
+                if (Physics.Raycast(transform.position + direction*0.1f, direction, out bulletHit, 100))
                 {
                     // if the bullet hits a player of the other team
                     Player hitPlayer = bulletHit.collider.GetComponent<Player>();

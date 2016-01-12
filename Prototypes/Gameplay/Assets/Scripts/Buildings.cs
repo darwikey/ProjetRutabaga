@@ -7,7 +7,7 @@ public class Buildings : MonoBehaviour
 
     public Texture2D _texture;
 
-    float _blockSize = 0.75f;
+    float _blockSize = 0.25f;
     float _wallHeight = 5.0f;
     float _obstacleHeight = 2.5f;
 
