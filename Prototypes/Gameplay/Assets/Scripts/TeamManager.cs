@@ -134,11 +134,11 @@ public class TeamManager : MonoBehaviour {
 		// team dependant
 		if (player.team == 1)
 		{
-			player.transform.position = _spawnerPositions[0] + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
+			player.transform.position = _spawnerPositions[0] + new Vector3(spawnPos.x, 3.0f, spawnPos.y);
 		}
 		else
 		{
-			player.transform.position = _spawnerPositions[1] + new Vector3(spawnPos.x, 0.0f, spawnPos.y);
+			player.transform.position = _spawnerPositions[1] + new Vector3(spawnPos.x, 3.0f, spawnPos.y);
 		}
 
 	}
