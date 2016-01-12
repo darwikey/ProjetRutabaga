@@ -6,7 +6,7 @@ using System.Linq;
 public class BuildingBaking : MonoBehaviour
 {
     // parameters
-    static float _blockSize = 0.75f;
+    static float _blockSize = 0.25f;
     static float _wallHeight = 5.0f;
     static float _obstacleHeight = 2.5f;
 
