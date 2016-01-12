@@ -163,16 +163,49 @@ public class Marksman : Player
                         }
                     }
                 }
+            }
 
-                //if target found, shot
-                if (target != null)
+            //if target found, shot
+            if (target != null)
+            {
+                float distance = Vector3.Distance( targetPoint ,transform.position);
+
+
+                // add a random component to avoid 100% accuracy
+                Vector2 rand = Random.insideUnitCircle;
+                Vector3 shotPoint = targetPoint + new Vector3(rand.x, 0, rand.y)*distance;
+
+                Vector3 direction = shotPoint - transform.position;
+                direction.Normalize();
+                direction.y = 0;
+
+                RaycastHit bulletHit;
+                if (Physics.Raycast(transform.position + direction, direction, out bulletHit, 100))
                 {
-                    target.SetDamage(1.0f);
-                    _bulletLine.SetPosition(1, targetPoint);
-                    _bulletLineTimer = 0.0f;
-                    _bulletLine.enabled = true;
-                    _shootTimer = 0.0f;
+                    // if the bullet hits a player of the other team
+                    Player hitPlayer = bulletHit.collider.GetComponent<Player>();
+                    if (hitPlayer != null && hitPlayer.team != _team)
+                    {
+                        hitPlayer.SetDamage(60.0f);
+                    }
+                    Obstacle hitObstacle = bulletHit.collider.GetComponent<Obstacle>();
+                    if (hitObstacle != null)
+                    {
+                        hitObstacle.SetDamage(1);
+                    }
+
+                    // end of the bullet line
+                    _bulletLine.SetPosition(1, bulletHit.point);
                 }
+                else
+                {
+                    // end of the bullet line
+                    _bulletLine.SetPosition(1, transform.position + 100.0f * direction);
+                }
+
+                _bulletLineTimer = 0.0f;
+                _bulletLine.enabled = true;
+                _shootTimer = 0.0f;
             }
         }
     }

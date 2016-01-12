@@ -35,6 +35,9 @@ public abstract class Player : MonoBehaviour
     protected GameObject[] _foes;
     protected GameObject[] _teammates;
 
+    //an object used for debug 
+    protected GameObject _debugChild;
+
 
     // When the player spawn
     public virtual void Start()
@@ -81,6 +84,8 @@ public abstract class Player : MonoBehaviour
 
         if (_mainCamera == null)
             AI_Start();
+
+ 
     }
 
 
@@ -171,6 +176,12 @@ public abstract class Player : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _zones = GameObject.FindGameObjectsWithTag("Zone");
 
+
+        if (_debugChild == null)
+        {
+            _debugChild = transform.Find("DebugLinePath").gameObject;
+
+        }
     }
     /* update AI choices */
     protected virtual void AI_Update()
@@ -181,6 +192,11 @@ public abstract class Player : MonoBehaviour
             _agent.SetDestination(target.transform.position);
 
         AI_ManageGrenade();
+
+        if (TeamManager.DEBUG_MODE)
+        {
+            AI_DEBUG_drawPath();
+        }
     }
 
     protected GameObject AI_TargetZone()
@@ -239,6 +255,9 @@ public abstract class Player : MonoBehaviour
         if (_launchGrenadeTimer < Player.GRENADE_LAUNCH_TIME || _numGrenade < 1)
             return;
 
+        //TODO: check grenade trajectory
+
+
         GameObject target = AI_TargetGrenadeZone();
         if (target == null)
             return;
@@ -246,7 +265,14 @@ public abstract class Player : MonoBehaviour
         _launchGrenadeTimer = 0.0f;
         _numGrenade--;
 
-        Vector3 vel = target.transform.position - transform.position;
+
+        float distance = Vector3.Distance(transform.position, target.transform.position);
+        Vector2 rand = Random.insideUnitCircle*distance*0.25f;
+
+        Vector3 grenadeTarget = target.transform.position + new Vector3(rand.x, 0, rand.y);
+
+
+        Vector3 vel = grenadeTarget - transform.position;
         vel /= 20.0f;
         vel *= 0.75f;//anticipate roll
         vel.y = 0.15f;
@@ -255,9 +281,34 @@ public abstract class Player : MonoBehaviour
 
     }
 
+
+    /*trace navmesh path*/
+    protected void AI_DEBUG_drawPath()
+    {
+        LineRenderer _debugPathLine = _debugChild.GetComponent<LineRenderer>(); 
+
+        _debugPathLine.SetPosition(0, transform.position);
+
+        NavMeshPath path = _agent.path;
+        _debugPathLine.SetVertexCount(path.corners.Length);
+        for (int i = 1; i < path.corners.Length; i++)
+        {
+            _debugPathLine.SetPosition(i, path.corners[i]);
+        }
+
+    }
+
+
+
     /* AI */
     /* =================================================================================================== */
     
+    
+
+
+
+
+
 
 
     public abstract Type playerType 
