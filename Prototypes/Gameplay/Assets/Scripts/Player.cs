@@ -198,10 +198,10 @@ public abstract class Player : MonoBehaviour
         }
 
         //set animation
-        if(Vector3.Distance(transform.position, target.transform.position) > 0.5f)
-            
-
-        AI_ManageGrenade();
+        if (Vector3.Distance(transform.position, target.transform.position) > 0.5f)
+        {
+            AI_ManageGrenade();
+        }
 
         if (_tm.DEBUG_MODE)
         {
