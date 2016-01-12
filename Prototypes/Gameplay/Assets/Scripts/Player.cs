@@ -30,7 +30,6 @@ public abstract class Player : MonoBehaviour
 
     protected static float GRENADE_LAUNCH_TIME = 2.0f;
 
-    protected NavMeshAgent _agent;
     protected GameObject[] _zones;
     protected GameObject[] _foes;
     protected GameObject[] _teammates;
@@ -48,9 +47,6 @@ public abstract class Player : MonoBehaviour
         _tm = GameObject.Find("TeamManager").GetComponent<TeamManager>();
         _obstacleManager = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>();
         _tpc = GetComponent<ThirdPersonController>();
-        
-        // activate navmesh for bots
-        GetComponent<NavMeshAgent>().enabled = _mainCamera == null;
 
         // Minimap icon
         if (_minimapIcon == null) {
@@ -99,8 +95,8 @@ public abstract class Player : MonoBehaviour
 
         _tpc.isControllable = isMainPlayer();
 
-        //_tpc.enabled = isMainPlayer();
-        //
+        // activate navmesh for bots
+        //GetComponent<NavMeshAgent>().enabled = !isMainPlayer();
 
 
 
@@ -182,7 +178,6 @@ public abstract class Player : MonoBehaviour
 
     protected virtual void AI_Start()
     {
-        _agent = GetComponent<NavMeshAgent>();
         _zones = GameObject.FindGameObjectsWithTag("Zone");
 
 
@@ -198,7 +193,9 @@ public abstract class Player : MonoBehaviour
         //set destination
         GameObject target = AI_TargetZone();
         if (target != null)
-            _agent.SetDestination(target.transform.position);
+        {
+            GetComponent<NavMeshAgent>().SetDestination(target.transform.position);
+        }
 
         //set animation
         if(Vector3.Distance(transform.position, target.transform.position) > 0.5f)
@@ -302,7 +299,7 @@ public abstract class Player : MonoBehaviour
 
         _debugPathLine.SetPosition(0, transform.position);
 
-        NavMeshPath path = _agent.path;
+        NavMeshPath path = GetComponent<NavMeshAgent>().path;
         _debugPathLine.SetVertexCount(path.corners.Length);
         for (int i = 1; i < path.corners.Length; i++)
         {
