@@ -84,9 +84,20 @@ public abstract class Player : MonoBehaviour
         _grenadePrefab = Resources.Load("Grenade") as GameObject;
 
         if (!isMainPlayer())
+        {
             AI_Start();
+        }
 
-
+        //// be sure the player stick to the navmesh
+        //NavMeshHit closestHit;
+        //if (NavMesh.SamplePosition(transform.position, out closestHit, 500.0f, NavMesh.AllAreas))
+        //{
+        //    //transform.position = closestHit.position;
+        //}
+        //else
+        //{
+        //    Debug.LogError("Could not find position on NavMesh !");
+        //}
     }
 
 

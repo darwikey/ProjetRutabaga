@@ -6,7 +6,7 @@ using System.Linq;
 public class BuildingBaking : MonoBehaviour
 {
     // parameters
-    static float _blockSize = 0.25f;
+    static float _blockSize = 0.35f;
     static float _wallHeight = 5.0f;
     static float _obstacleHeight = 2.5f;
 
@@ -38,6 +38,13 @@ public class BuildingBaking : MonoBehaviour
         {
             Debug.LogError("unabe to find Building");
             return;
+        }
+
+        // Destroy children
+        int childs = info._building.transform.childCount;
+        for (int i = childs - 1; i >= 0; i--)
+        {
+            DestroyImmediate(info._building.transform.GetChild(i).gameObject);
         }
 
         info._texture = info._building.GetComponent<Buildings>()._texture;
@@ -91,7 +98,14 @@ public class BuildingBaking : MonoBehaviour
         mesh.RecalculateBounds();
 
         info._building.GetComponent<MeshFilter>().sharedMesh = mesh;
-        info._building.GetComponent<MeshCollider>().sharedMesh = mesh;
+        //info._building.GetComponent<MeshCollider>().sharedMesh = mesh;
+
+        // destroy previous box collider
+        foreach (BoxCollider b in info._building.GetComponents<BoxCollider>())
+        {
+            DestroyImmediate(b);
+        }
+        findCollider(info, table);
     }
 
 
@@ -233,8 +247,76 @@ public class BuildingBaking : MonoBehaviour
         mesh.RecalculateBounds();
 
         obstacle.GetComponent<MeshFilter>().sharedMesh = mesh;
-        obstacle.GetComponent<MeshCollider>().sharedMesh = mesh;
+
+        // Box collider
+        BoxCollider box = obstacle.AddComponent<BoxCollider>();
+        box.center = new Vector3(0.0f, 0.5f * _wallHeight, 0.0f);
+        box.size = new Vector3((xMax - x0) * _blockSize, _obstacleHeight, (yMax - y0) * _blockSize);
 
         _obstacleManager.obstacles.Add(obstacle.GetComponent<Obstacle>());
+    }
+
+    static void findCollider(BuildingInfo info, Color32[] table)
+    {
+        for (int x0 = 0; x0 < info._texture.width; x0++)
+        {
+            for (int y0 = 0; y0 < info._texture.height; y0++)
+            {
+                Color32 c = table[x0 * info._texture.height + y0];
+
+                if (c.g == 255) // white for air
+                {
+                    continue;
+                }
+
+                // Find the height and the width of the obstacle
+                int xMax = x0, yMax = y0;
+                for (xMax = x0; xMax < info._texture.width - 1;)
+                {
+                    xMax++;
+                    if (table[xMax * info._texture.height + y0].g != c.g)
+                    {
+                        break;
+                    }
+                }
+                
+                for (yMax = y0; yMax < info._texture.height;)
+                {
+                    bool _ok = true;
+                    yMax++;
+                    for (int x1 = x0; x1 < xMax; x1++)
+                    {
+                        if (table[x1 * info._texture.height + yMax].g != c.g)
+                        {
+                            _ok = false;
+                            break;
+                        }
+                    } 
+                    if (!_ok)
+                    {
+                        break;
+                    }
+                }
+
+                if (xMax == x0 || yMax == y0)
+                {
+                    continue;
+                }
+
+                // clear obstacle pixels
+                for (int x1 = x0; x1 < xMax; x1++)
+                {
+                    for (int y1 = y0; y1 < yMax; y1++)
+                    {
+                        // clear obstacle pixels
+                        table[x1 * info._texture.height + y1] = new Color32(255, 255, 255, 255);
+                    }
+                }
+
+                BoxCollider box = info._building.AddComponent<BoxCollider>();
+                box.center = new Vector3((x0 + xMax) * 0.5f * _blockSize, 0.5f * _wallHeight, (y0 + yMax) * 0.5f * _blockSize);               
+                box.size = new Vector3((xMax - x0) * _blockSize, _wallHeight, (yMax - y0) * _blockSize);
+            }
+        }        
     }
 }

@@ -30,12 +30,12 @@ public class Obstacle : MonoBehaviour {
         if (_life <= 0)
         {
             GetComponent<MeshRenderer>().material = _hiddenMaterial;
-            GetComponent<MeshCollider>().enabled = false;
+            GetComponent<BoxCollider>().enabled = false;
         }
         else
         {
             GetComponent<MeshRenderer>().material = _builtMaterial;
-            GetComponent<MeshCollider>().enabled = true;
+            GetComponent<BoxCollider>().enabled = true;
         }
     }
 }
