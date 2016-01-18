@@ -164,6 +164,8 @@ public class ThirdPersonController : MonoBehaviour
 
         if (!isControllable)
             nav = GetComponent<NavMeshAgent>();
+        Rigidbody controller = GetComponent<Rigidbody>();
+
 
         Vector3 movement;
         if (isControllable)
@@ -175,7 +177,6 @@ public class ThirdPersonController : MonoBehaviour
             movement *= Time.deltaTime;
 
             // Move the controller
-            Rigidbody controller = GetComponent<Rigidbody>();
             controller.position = movement + controller.position;
         }
         else
@@ -205,10 +206,15 @@ public class ThirdPersonController : MonoBehaviour
 			}
 
 		}
-		
-		// Set rotation to the move direction
-		transform.rotation = Quaternion.LookRotation(moveDirection);
 
+        // Set rotation to the move direction
+        if (isControllable)
+            transform.rotation = Quaternion.LookRotation(moveDirection);
+        else
+        {
+            movement.y = 0;
+            transform.rotation = Quaternion.LookRotation(movement.normalized);
+        }
 	}
 	
 	float GetSpeed () {

@@ -208,13 +208,15 @@ public abstract class Player : MonoBehaviour
         if (target != null)
         {
             GetComponent<NavMeshAgent>().SetDestination(target.transform.position);
+
+            //set animation
+            if (Vector3.Distance(transform.position, target.transform.position) > 0.5f)
+            {
+                AI_ManageGrenade();
+            }
         }
 
-        //set animation
-        if (Vector3.Distance(transform.position, target.transform.position) > 0.5f)
-        {
-            AI_ManageGrenade();
-        }
+
 
         if (_tm.DEBUG_MODE)
         {
@@ -258,11 +260,29 @@ public abstract class Player : MonoBehaviour
             if (z.getTeamInArea() == enemyteam() && z.dangerLevel >= 2 && Vector3.Distance(z.transform.position, transform.position) < 50.0f)
             {
                 if (target == null)
-                    target = zone;
+                {
+                    RaycastHit rayHit;
+                    Vector3 dir = (zone.transform.position - transform.position).normalized;
+                    if (Physics.Raycast(transform.position + dir * 0.1f, dir, out rayHit, 100))
+                    {
+                        ZoneBehaviour hitZone = rayHit.collider.GetComponent<ZoneBehaviour>();
+                        if (hitZone != null)
+                            target = zone;
+                    }
+                }
                 else
                 {
                     if (Vector3.Distance(transform.position, zone.transform.position) < Vector3.Distance(transform.position, target.transform.position))
-                        target = zone;
+                    {
+                        RaycastHit rayHit;
+                        Vector3 dir = (zone.transform.position - transform.position).normalized;
+                        if (Physics.Raycast(transform.position + dir * 0.1f, dir, out rayHit, 100))
+                        {
+                            ZoneBehaviour hitZone = rayHit.collider.GetComponent<ZoneBehaviour>();
+                            if(hitZone != null)
+                               target = zone;
+                        }
+                    }
                 }
             }
         }
@@ -290,7 +310,8 @@ public abstract class Player : MonoBehaviour
 
 
         float distance = Vector3.Distance(transform.position, target.transform.position);
-        Vector2 rand = Random.insideUnitCircle*distance*0.25f;
+
+         Vector2 rand = Random.insideUnitCircle*distance*0.25f;
 
         Vector3 grenadeTarget = target.transform.position + new Vector3(rand.x, 0, rand.y);
 
