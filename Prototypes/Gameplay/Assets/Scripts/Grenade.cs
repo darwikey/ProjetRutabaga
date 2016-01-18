@@ -25,17 +25,30 @@ public class Grenade : MonoBehaviour {
             // explosion blast
             foreach (Player player in _tm.getPlayerList())
             {
+
+    
                 float d = Vector3.Distance(transform.position, player.transform.position);
                 // in the blast radius
                 if (d < _blastRadius)
                 {
-                    float damage = 100.0f * ((_blastRadius - d) / _blastRadius);
-                    player.SetDamage(damage);
-                    Vector3 dir = player.transform.position - transform.position;
-                    dir.Normalize();
-                    dir.y = 0.1f;
-                    // direction of ejection 
-                    player.GetComponent<Rigidbody>().velocity = 15.0f * dir;
+
+                    /*check if there is obstacle on the way to protect the target*/
+                    bool isprotected = false;
+                    RaycastHit rayHit;
+                    Vector3 dir = (player.transform.position - transform.position).normalized;
+                    if (Physics.Raycast(transform.position + dir * 0.1f, dir, out rayHit, 100))
+                    {
+                        Player hitPlayer = rayHit.collider.GetComponent<Player>();
+                        isprotected = (hitPlayer == null);
+                    }
+                    if (!isprotected)
+                    {
+                        float damage = 100.0f * ((_blastRadius - d) / _blastRadius);
+                        player.SetDamage(damage);
+                        dir.y = 0.1f;
+                        // direction of ejection 
+                        player.GetComponent<Rigidbody>().velocity = 15.0f * dir;
+                    }
                 }
             }
 

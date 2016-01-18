@@ -61,9 +61,23 @@ public abstract class Player : MonoBehaviour
 			
 			if (team == 1) {
 				_minimapIcon.GetComponent<Renderer> ().material = Resources.Load ("team1Minimap") as Material;
-			} else {
+                foreach (Transform child in transform)
+                {
+                    if (child.name == "Bip001")
+                    {
+                        child.GetChild(0).GetComponent<SkinnedMeshRenderer>().material = Resources.Load("constructor_done") as Material;
+                    }
+                }
+            } else {
 				_minimapIcon.GetComponent<Renderer> ().material = Resources.Load ("team2Minimap") as Material;
-			}
+                foreach (Transform child in transform)
+                {
+                    if (child.name == "Bip001")
+                    {
+                        child.GetChild(0).GetComponent<SkinnedMeshRenderer>().material = Resources.Load("constructor_done2") as Material;
+                    }
+                }
+            }
 		}
 
 		// Fog mask
@@ -261,6 +275,7 @@ public abstract class Player : MonoBehaviour
             {
                 if (target == null)
                 {
+                    /*check if there is obstacle on the way*/
                     RaycastHit rayHit;
                     Vector3 dir = (zone.transform.position - transform.position).normalized;
                     if (Physics.Raycast(transform.position + dir * 0.1f, dir, out rayHit, 100))
