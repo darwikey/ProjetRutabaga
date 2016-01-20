@@ -32,15 +32,27 @@ public class Marksman : Player
         if (_shootTimer > _shootRate)
 		{
 			// the main player shoots
-			if (_mainCamera != null)
+			if (isMainPlayer())
             {
-				// the user pressed the mouse down
+				// the user pressed the left button mouse down
 				if (Input.GetMouseButton (0))
                 {
 					// reset timer
 					_shootTimer = 0.0f;
 
 					mainPlayerShoot ();
+				}
+				// the user pressed the right button mouse 
+				else if (Input.GetMouseButton(1))
+				{
+					// look for the closest obstacle
+					float obsDist;
+					Obstacle obstacle = _obstacleManager.nearestObstacle(transform.position, out obsDist);
+					Debug.LogError (obstacle);
+					if (obstacle != null && obsDist < 6.0f)
+					{
+						obstacle.Built();
+					}
 				}
 			}
 		}

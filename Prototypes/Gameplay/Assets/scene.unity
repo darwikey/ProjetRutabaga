@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_MODE: 0
-  _numPlayers: 5
+  _numPlayers: 1
   _spawnerPositions: []
   _spawnRadius: 2.94
   _visibilityDistance: 25
@@ -1607,7 +1607,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 6.2999997, y: 2.5, z: 1.75}
-  m_Center: {x: 0, y: 2.5, z: 0}
+  m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!114 &1190208828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2256,7 +2256,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 7.35, y: 2.5, z: 1.75}
-  m_Center: {x: 0, y: 2.5, z: 0}
+  m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!114 &1831860190
 MonoBehaviour:
   m_ObjectHideFlags: 0

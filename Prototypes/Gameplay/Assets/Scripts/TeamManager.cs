@@ -107,10 +107,6 @@ public class TeamManager : MonoBehaviour {
 		case Player.Type.PROTECTOR:
 			playerInstance = player.AddComponent<Protector>();
 			break;
-
-		case Player.Type.ENGINEER:
-			playerInstance = player.AddComponent<Engineer>();
-			break;
 		}
 
 		// assign a team

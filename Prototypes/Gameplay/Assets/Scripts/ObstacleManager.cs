@@ -5,11 +5,16 @@ using System.Linq;
 
 public class ObstacleManager : MonoBehaviour {
 
-    List<Obstacle> _obstacles = new List<Obstacle>();
-
+    Obstacle[] _obstacles = null;
+	bool _isInit = false;
 	
     public Obstacle nearestObstacle(Vector3 point, out float minDistance)
     {
+		if (!_isInit) {
+			_isInit = true;
+			_obstacles = FindObjectsOfType<Obstacle> ();
+		}
+
         Obstacle obstacle = null;
         minDistance = float.PositiveInfinity;
 
@@ -26,7 +31,7 @@ public class ObstacleManager : MonoBehaviour {
         return obstacle;
     }
 
-    public List<Obstacle> obstacles
+    public Obstacle[] obstacles
     {
         get
         {

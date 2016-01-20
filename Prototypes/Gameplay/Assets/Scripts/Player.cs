@@ -6,8 +6,7 @@ public abstract class Player : MonoBehaviour
 	public enum Type
 	{
 		MARKSMAN,
-		PROTECTOR,
-		ENGINEER
+		PROTECTOR
 	}
 
 	// if not null, this player is the main player
@@ -101,17 +100,7 @@ public abstract class Player : MonoBehaviour
         {
             AI_Start();
         }
-
-        //// be sure the player stick to the navmesh
-        //NavMeshHit closestHit;
-        //if (NavMesh.SamplePosition(transform.position, out closestHit, 500.0f, NavMesh.AllAreas))
-        //{
-        //    //transform.position = closestHit.position;
-        //}
-        //else
-        //{
-        //    Debug.LogError("Could not find position on NavMesh !");
-        //}
+			
     }
 
 
@@ -125,13 +114,11 @@ public abstract class Player : MonoBehaviour
         //GetComponent<NavMeshAgent>().enabled = !isMainPlayer();
 
 
-
-
-        // Grenade
-        if (_launchGrenadeTimer > GRENADE_LAUNCH_TIME && _numGrenade > 0)
+        
+		if (isMainPlayer())
         {
             // main player launch a grenade
-            if (mainCamera != null)
+			if (_launchGrenadeTimer > GRENADE_LAUNCH_TIME && _numGrenade > 0)
             {
                 // middle mouse button or G key
                 if (Input.GetMouseButton(2) || Input.GetKey(KeyCode.G))
@@ -142,7 +129,7 @@ public abstract class Player : MonoBehaviour
         }
 
         /* BOT AI */
-        if(mainCamera == null)
+        else
         {
             AI_Update();
         }
@@ -241,7 +228,7 @@ public abstract class Player : MonoBehaviour
     protected GameObject AI_TargetZone()
     {
         GameObject target = null;
-        NavMeshPath path = new NavMeshPath();
+        //NavMeshPath path = new NavMeshPath();
 
         ZoneBehaviour z;
 
