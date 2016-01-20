@@ -213,7 +213,8 @@ public class ThirdPersonController : MonoBehaviour
         else
         {
             movement.y = 0;
-            transform.rotation = Quaternion.LookRotation(movement.normalized);
+			if (movement != Vector3.zero)
+				transform.rotation = Quaternion.LookRotation(movement.normalized);
         }
 	}
 	
