@@ -250,6 +250,13 @@ public class BuildingBaking : MonoBehaviour
         BoxCollider box = obstacle.AddComponent<BoxCollider>();
 		box.center = new Vector3(0.0f, 0.5f * _obstacleHeight, 0.0f);
         box.size = new Vector3((xMax - x0) * _blockSize, _obstacleHeight, (yMax - y0) * _blockSize);
+
+		// Navmesh obstacle
+		NavMeshObstacle navmeshObstacle = obstacle.AddComponent<NavMeshObstacle>();
+		navmeshObstacle.shape = NavMeshObstacleShape.Box;
+		navmeshObstacle.center = box.center;
+		navmeshObstacle.size = box.size;
+		navmeshObstacle.carving = true;
     }
 
     static void findCollider(BuildingInfo info, Color32[] table)
