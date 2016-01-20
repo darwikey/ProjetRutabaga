@@ -26,7 +26,6 @@ public class BuildingBaking : MonoBehaviour
         public Texture2D _texture;
     }
 
-    static ObstacleManager _obstacleManager;
 
     [MenuItem("Building/Building baking")]
     static void bake()
@@ -49,7 +48,6 @@ public class BuildingBaking : MonoBehaviour
 
         info._texture = info._building.GetComponent<Buildings>()._texture;
         //TeamManager teamManager = GameObject.Find("TeamManager").GetComponent<TeamManager>();
-        _obstacleManager = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>();
         GameObject zonePrefab = Resources.Load<GameObject>("zone");
 
         Mesh mesh = new Mesh();
@@ -250,10 +248,8 @@ public class BuildingBaking : MonoBehaviour
 
         // Box collider
         BoxCollider box = obstacle.AddComponent<BoxCollider>();
-        box.center = new Vector3(0.0f, 0.5f * _wallHeight, 0.0f);
+		box.center = new Vector3(0.0f, 0.5f * _obstacleHeight, 0.0f);
         box.size = new Vector3((xMax - x0) * _blockSize, _obstacleHeight, (yMax - y0) * _blockSize);
-
-        _obstacleManager.obstacles.Add(obstacle.GetComponent<Obstacle>());
     }
 
     static void findCollider(BuildingInfo info, Color32[] table)
