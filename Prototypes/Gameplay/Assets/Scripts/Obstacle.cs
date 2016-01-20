@@ -31,11 +31,13 @@ public class Obstacle : MonoBehaviour {
         {
             GetComponent<MeshRenderer>().material = _hiddenMaterial;
             GetComponent<BoxCollider>().enabled = false;
+			GetComponent<NavMeshObstacle>().enabled = false;
         }
         else
         {
             GetComponent<MeshRenderer>().material = _builtMaterial;
             GetComponent<BoxCollider>().enabled = true;
+			GetComponent<NavMeshObstacle>().enabled = true;
         }
     }
 }

@@ -1577,6 +1577,7 @@ GameObject:
   - 33: {fileID: 1190208829}
   - 114: {fileID: 1190208828}
   - 65: {fileID: 1190208827}
+  - 208: {fileID: 1190208831}
   m_Layer: 0
   m_Name: Obstacle(Clone)
   m_TagString: Untagged
@@ -1654,6 +1655,21 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!208 &1190208831
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1190208825}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.15, y: 1.25, z: 0.87500006}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!4 &1197274358 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 4c85abd0a4d974473b97e81d10a3a6bc, type: 3}
@@ -2226,6 +2242,7 @@ GameObject:
   - 33: {fileID: 1831860191}
   - 114: {fileID: 1831860190}
   - 65: {fileID: 1831860189}
+  - 208: {fileID: 1831860193}
   m_Layer: 0
   m_Name: Obstacle(Clone)
   m_TagString: Untagged
@@ -2303,6 +2320,21 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!208 &1831860193
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1831860187}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.6750002, y: 1.25, z: 0.87500006}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!4 &1836182464 stripped
 Transform:
   m_PrefabParentObject: {fileID: 476372, guid: 0069ed9d3d17b4c4ea50f398b11d7916, type: 2}

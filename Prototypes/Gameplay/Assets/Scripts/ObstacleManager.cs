@@ -6,15 +6,14 @@ using System.Linq;
 public class ObstacleManager : MonoBehaviour {
 
     Obstacle[] _obstacles = null;
-	bool _isInit = false;
-	
+
+	void Start()
+	{
+		_obstacles = FindObjectsOfType<Obstacle> ();
+	}
+
     public Obstacle nearestObstacle(Vector3 point, out float minDistance)
     {
-		if (!_isInit) {
-			_isInit = true;
-			_obstacles = FindObjectsOfType<Obstacle> ();
-		}
-
         Obstacle obstacle = null;
         minDistance = float.PositiveInfinity;
 
