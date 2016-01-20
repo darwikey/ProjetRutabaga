@@ -48,7 +48,6 @@ public class Marksman : Player
 					// look for the closest obstacle
 					float obsDist;
 					Obstacle obstacle = _obstacleManager.nearestObstacle(transform.position, out obsDist);
-					Debug.LogError (obstacle);
 					if (obstacle != null && obsDist < 6.0f)
 					{
 						obstacle.Built();

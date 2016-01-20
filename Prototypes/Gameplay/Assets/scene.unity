@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_MODE: 0
-  _numPlayers: 1
+  _numPlayers: 5
   _spawnerPositions: []
   _spawnRadius: 2.94
   _visibilityDistance: 25
