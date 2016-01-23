@@ -10,7 +10,7 @@ public class TeamManager : MonoBehaviour {
 
     public uint _numPlayers = 5;
     public List<Vector3> _spawnerPositions = new List<Vector3>();
-    public float _spawnRadius = 1.0f;
+    public float _spawnRadius = 0.5f;
 	public float _visibilityDistance = 25.0f;
     public Player.Type _mainPlayerType = Player.Type.MARKSMAN;
 
@@ -41,9 +41,21 @@ public class TeamManager : MonoBehaviour {
 
 	    for (uint i = 0; i < _numPlayers; i++)
         {
-			CreatePlayer(1, _mainPlayerType);
-            
-			if (i < 2)
+            if(i == 0)
+                CreatePlayer(1, _mainPlayerType);
+            else
+            {
+                if (Random.value > 0.6)
+                {
+                    CreatePlayer(1, Player.Type.PROTECTOR);
+                }
+                else
+                {
+                    CreatePlayer(1, Player.Type.MARKSMAN);
+                }
+            }
+
+            if (Random.value > 0.6)
 			{
 				CreatePlayer(2, Player.Type.PROTECTOR);
 			}
@@ -111,6 +123,10 @@ public class TeamManager : MonoBehaviour {
 
 		// assign a team
 		playerInstance.team = team;
+
+        //reset the velocity 
+        Rigidbody playerRB = player.GetComponent<Rigidbody>();
+        playerRB.velocity = Vector3.zero; 
 
 
 		// team dependant

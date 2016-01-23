@@ -37,6 +37,7 @@ public abstract class Player : MonoBehaviour
     protected GameObject _debugChild;
 
     protected ThirdPersonController _tpc;
+    protected GameObject _IAtarget;
 
     // When the player spawn
     public virtual void Start()
@@ -193,7 +194,7 @@ public abstract class Player : MonoBehaviour
     protected virtual void AI_Start()
     {
         _zones = GameObject.FindGameObjectsWithTag("Zone");
-
+        _IAtarget = null;
 
         if (_debugChild == null)
         {
@@ -227,6 +228,23 @@ public abstract class Player : MonoBehaviour
 
     protected GameObject AI_TargetZone()
     {
+
+        //if the bot already has a target
+        if(_IAtarget != null)
+        {
+            ZoneBehaviour zb = _IAtarget.GetComponent<ZoneBehaviour>();
+            //if there is a reason to target this zone
+            if (zb.ownerTeam != team || zb.dangerLevel > 0)
+            {
+                return _IAtarget;
+            }
+            else
+            {
+                _IAtarget = null;
+            }
+        }
+
+
         GameObject target = null;
         //NavMeshPath path = new NavMeshPath();
 
@@ -241,11 +259,18 @@ public abstract class Player : MonoBehaviour
                     target = zone;
                 else
                 {
-                    if (Vector3.Distance(transform.position, zone.transform.position) < Vector3.Distance(transform.position, target.transform.position))
+                    float distanceTarget = Vector3.Distance(transform.position, target.transform.position);
+                    if (distanceTarget == 0.0)
+                        return target;
+
+                    float distanceRatio = Vector3.Distance(transform.position, zone.transform.position) / distanceTarget;
+
+                    if (Random.value > 0.5f*distanceRatio*distanceRatio)
                         target = zone;
                 }
             }
         }
+        _IAtarget = target;
         return target;
     }
 

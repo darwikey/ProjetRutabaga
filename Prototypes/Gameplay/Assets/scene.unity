@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_MODE: 0
-  _numPlayers: 5
+  _numPlayers: 10
   _spawnerPositions: []
   _spawnRadius: 2.94
   _visibilityDistance: 25
@@ -362,7 +362,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 478912, guid: a62d62fa1c40f504fb0d76dffd189e99, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 22.96
+      value: 7.8
       objectReference: {fileID: 0}
     - target: {fileID: 478912, guid: a62d62fa1c40f504fb0d76dffd189e99, type: 2}
       propertyPath: m_LocalPosition.y
@@ -390,6 +390,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 478912, guid: a62d62fa1c40f504fb0d76dffd189e99, type: 2}
       propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357976, guid: a62d62fa1c40f504fb0d76dffd189e99, type: 2}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -653,7 +657,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 478912, guid: a62d62fa1c40f504fb0d76dffd189e99, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 66.8
+      value: 77.7
       objectReference: {fileID: 0}
     - target: {fileID: 478912, guid: a62d62fa1c40f504fb0d76dffd189e99, type: 2}
       propertyPath: m_LocalPosition.y
@@ -686,6 +690,10 @@ Prefab:
     - target: {fileID: 157324, guid: a62d62fa1c40f504fb0d76dffd189e99, type: 2}
       propertyPath: m_Name
       value: Spawner (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357976, guid: a62d62fa1c40f504fb0d76dffd189e99, type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a62d62fa1c40f504fb0d76dffd189e99, type: 2}
