@@ -184,6 +184,11 @@ public abstract class Player : MonoBehaviour
             damage *= 0.5f; 
         }
 		_health -= damage;
+
+        if (isMainPlayer() && _health <= 0.0f)
+        {
+            FindObjectOfType<DeathScreen>().Show();
+        }
 	}
 
 
